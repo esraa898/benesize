@@ -19,12 +19,12 @@ class CreateUsersTable extends Migration
             $table->string('phone', 20)->nullable()->unique();
             $table->string('email')->nullable()->unique();
             $table->string('password')->nullable();
-            $table->unsignedBigInteger('country_id')->unsigned();
-            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade')->nullable();
-            $table->unsignedBigInteger('city_id')->unsigned();
-            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade')->nullable();
-            $table->unsignedBigInteger('area_id')->unsigned();
-            $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade')->nullable();
+            $table->unsignedBigInteger('country_id')->unsigned()->nullable();
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+            $table->unsignedBigInteger('city_id')->unsigned()->nullable();
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
+            $table->unsignedBigInteger('area_id')->unsigned()->nullable();
+            $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('address')->nullable();
             $table->string('lat')->nullable();
@@ -32,7 +32,7 @@ class CreateUsersTable extends Migration
             $table->string('image',250)->nullable();
             $table->boolean('is_active')->default(true);
             $table->string('activation_code', 10)->nullable();
-            $table->tinyInteger('is_registerd');
+            $table->tinyInteger('is_registerd')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

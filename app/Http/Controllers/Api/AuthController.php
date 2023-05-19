@@ -8,6 +8,7 @@ use function App\Helpers\translate;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\CreatePasswordRequest;
 
 class AuthController extends Controller
 {
@@ -23,9 +24,8 @@ class AuthController extends Controller
             'phone' => 'required|string',
 
         ]);
-        $user=$this->userModel::where('phone',$request->phone)->first();
-        $data=[];
-        $data['user_id']=$user->id;
+        $user = $this->userModel::where('phone',$request->phone)->first();
+
         if(is_null($user)){
 
           $user=  $this->userModel::create([
@@ -33,11 +33,14 @@ class AuthController extends Controller
                 'activation_code'=>  rand ( 1000 , 9999 ),
             ]);
 
-
+            $data = [];
+            $data['user_id'] = $user->id;
             return responseApi(200,
             'activation code sent to your number',$data);
 
         }else{
+            $data=[];
+            $data['user_id'] = $user->id;
             if(!is_null($user->password)){
                 if($user->is_active == 1){
                     $data['is_active']= $user->is_active;
@@ -54,8 +57,6 @@ class AuthController extends Controller
             }
         }
 
-
-
     }
 
     public function checkCode(Request $request)
@@ -69,14 +70,24 @@ class AuthController extends Controller
             return responseApi('false', $validator->errors());
 
         $user = $this->userModel::where('id', $request->user_id)->first();
-          $data=['user_id'=>$user->id];
+        $data=['user_id'=>$user->id];
 
         if($user->activation_code ==  $request->code){
 
-
-          return responseApi('200', 'activation code is correct', $data);
+            return responseApi('200', 'activation code is correct', $data);
         }
         return responseApi('500', 'activation code is incorrect', $data);
+    }
+    
+    public function save_password(CreatePasswordRequest $request){
+
+        $user = $this->userModel::where('id', $request->user_id)->first();
+        $data['user_id'] = $user->id;
+        $user->update([
+            'password' => $request->password
+        ]);
+
+        return responseApi(200, 'Password saved successfuly', $data);
     }
 
     public function login(Request $request)
@@ -90,7 +101,7 @@ class AuthController extends Controller
             return responseApi('false',
                 $validator->errors());
 
-        $user= User::where('phone',
+        $user = User::where('phone',
             $request->phone)->first();
 
         if(!$user){
