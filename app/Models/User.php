@@ -21,6 +21,17 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'activation_code',
+        'address',
+        'lat',
+        'lang',
+        'image',
+        'is_active',
+        'is_registerd',
+        'city_id',
+        'area_id',
+        'country_id'
     ];
 
     /**
@@ -41,4 +52,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 }
