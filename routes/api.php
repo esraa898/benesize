@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/checkPhoneNumber',[AuthController::class,'checkPhone']);
 Route::post('/verificationCodeNumber',[AuthController::class,'checkCode']);
+Route::post('/savePassword',[AuthController::class,'save_password']);
+Route::post('/register',[AuthController::class,'register']);
