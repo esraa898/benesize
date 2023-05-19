@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\CreatePasswordRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -141,13 +142,12 @@ class AuthController extends Controller
                 'Not found user');
         }
 
-        if (!$token=auth()->attempt($validator->validated())){
-            $token = auth()->attempt(['phone'=>$request->phone,
+        if (! $token = JWTAuth::attempt($validator->validated())){
+            $token = JWTAuth::attempt(['phone'=>$request->phone,
                 'password'=> $request->password]);
         }
 
-
-
+        dd($token);
         if (!$token){
             return responseApi('false',
                 'Unauthorized');
