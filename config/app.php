@@ -81,6 +81,8 @@ return [
     */
 
     'locale' => 'en',
+    'locales' => ['en', 'ar'],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -165,7 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+            Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         /*
          * Application Service Providers...
          */
