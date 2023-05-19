@@ -20,7 +20,7 @@ class UserResource extends JsonResource
             'name'=>$this->name,
             'email'=>$this->email,
             'phone'=>$this->phone,
-            'image'=>$this->getFirstMedia('images') != null ? $this->getFirstMedia('images')->getUrl() : null,
+            'image'=>$this->image,
             'address'=>$this->address,
             'lat'=>$this->lat,
             'lang'=>$this->lang,
