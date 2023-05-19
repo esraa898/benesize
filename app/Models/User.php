@@ -31,7 +31,9 @@ class User extends Authenticatable
         'is_registerd',
         'city_id',
         'area_id',
-        'country_id'
+        'country_id',
+        'gender',
+        'date_of_birth'
     ];
 
     /**

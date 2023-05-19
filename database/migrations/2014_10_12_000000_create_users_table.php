@@ -33,6 +33,8 @@ class CreateUsersTable extends Migration
             $table->boolean('is_active')->default(true);
             $table->string('activation_code', 10)->nullable();
             $table->tinyInteger('is_registerd')->default(0);
+            $table->enum('gender', array('male','female'))->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

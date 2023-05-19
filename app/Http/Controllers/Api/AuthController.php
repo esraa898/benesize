@@ -3,19 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use App\Models\Seller;
 use Illuminate\Http\Request;
 use function App\Helpers\translate;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\CreatePasswordRequest;
+use App\Http\Requests\RegisterRequest;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     protected $userModel;
-    public function __construct(User $user)
+    public function __construct(User $user, Seller $seller)
     {
-       $this->userModel=$user;
+       $this->userModel = $user;
+       $this->sellerModel = $seller;
     }
 
     public function checkPhone(Request $request){
@@ -70,10 +74,9 @@ class AuthController extends Controller
             return responseApi('false', $validator->errors());
 
         $user = $this->userModel::where('id', $request->user_id)->first();
-        $data=['user_id'=>$user->id];
+        $data = ['user_id'=>$user->id];
 
-        if($user->activation_code ==  $request->code){
-
+        if($user->activation_code == $request->code){
             return responseApi('200', 'activation code is correct', $data);
         }
         return responseApi('500', 'activation code is incorrect', $data);
@@ -83,11 +86,40 @@ class AuthController extends Controller
 
         $user = $this->userModel::where('id', $request->user_id)->first();
         $data['user_id'] = $user->id;
-        $user->update([
-            'password' => $request->password
-        ]);
+
+        if(empty($user->password)){
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
+        }
 
         return responseApi(200, 'Password saved successfuly', $data);
+    }
+
+    public function register(RegisterRequest $request){
+        $user = $this->userModel::where('id', $request->user_id)->first();
+        $data['user_id'] = $user->id;
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'country_id' => $request->country_id,
+            'city_id' => $request->city_id,
+            'area_id' => $request->area_id,
+            'address' => $request->address,
+            'lat' => $request->lat,
+            'long' => $request->long,
+            'image' => $request->image,
+        ]);
+
+        $this->sellerModel->create([
+            'user_id' => $user->id,
+            'store_name'=> $request->store_name,
+            'wallet_number' => $request->wallet_number
+        ]);
+
+        return responseApi(200, 'User registered successfuly', $data);
+    
     }
 
     public function login(Request $request)
