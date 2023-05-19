@@ -14,6 +14,7 @@ use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
+
 class AuthController extends Controller
 {
     protected $userModel;
@@ -147,7 +148,6 @@ class AuthController extends Controller
                 'password'=> $request->password]);
         }
 
-        dd($token);
         if (!$token){
             return responseApi('false',
                 'Unauthorized');
