@@ -18,6 +18,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class AuthController extends Controller
 {
     protected $userModel;
+    protected $sellerModel;
+
     public function __construct(User $user, Seller $seller)
     {
        $this->userModel = $user;
