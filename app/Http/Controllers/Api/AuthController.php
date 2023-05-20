@@ -11,6 +11,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\CreatePasswordRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ForgetPasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -166,5 +167,18 @@ class AuthController extends Controller
             'expires_in' => auth('api')->factory()->getTTL() * 60,
             'user' => new UserResource(auth()->user())
         ]);
+    }
+
+    public function changePassword(ForgetPasswordRequest $request)
+    {   
+    
+        $user = User::where('id', $request->user_id)->first();
+        
+        if (Hash::check($request->old_password,  $user->password)) {
+            $user->update(['password' => $request->new_password]);
+
+            return responseApi(200, 'Password changed successfuly');
+        }
+        return responseApi(500, 'User not found');
     }
 }
