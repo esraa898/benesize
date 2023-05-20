@@ -25,6 +25,7 @@ class AuthController extends Controller
     {
        $this->userModel = $user;
        $this->sellerModel = $seller;
+       $this->middleware('auth.guard:api', ['except' => ['login', 'register', "sellerRegister", 'forgotPassword', 'checkPhone','checkCode', 'customRemoveAccount','ActiveRemoveAccount','save_password']]);
     }
 
     public function checkPhone(Request $request){
@@ -86,7 +87,7 @@ class AuthController extends Controller
         }
         return responseApi('500', 'activation code is incorrect', $data);
     }
-    
+
     public function save_password(CreatePasswordRequest $request){
 
         $user = $this->userModel::where('id', $request->user_id)->first();
@@ -124,7 +125,7 @@ class AuthController extends Controller
         ]);
 
         return responseApi(200, 'User registered successfuly', $data);
-    
+
     }
 
     public function login(Request $request)
@@ -170,15 +171,28 @@ class AuthController extends Controller
     }
 
     public function changePassword(ForgetPasswordRequest $request)
-    {   
-    
+    {
+
         $user = User::where('id', $request->user_id)->first();
-        
+
         if (Hash::check($request->old_password,  $user->password)) {
             $user->update(['password' => $request->new_password]);
 
             return responseApi(200, 'Password changed successfuly');
         }
         return responseApi(500, 'User not found');
+    }
+
+
+    public function logout()
+    {
+
+        auth()->logout();
+        return responseApi('success', translate('user logout'));
+    }
+
+    public function refresh()
+    {
+        return $this->createNewToken(auth()->refresh());
     }
 }
