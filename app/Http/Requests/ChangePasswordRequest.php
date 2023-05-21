@@ -8,7 +8,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
 
-class ForgetPasswordRequest extends FormRequest
+class ChangePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,9 +33,21 @@ class ForgetPasswordRequest extends FormRequest
         ];
     }
 
-    public function failedValidation( $validator)
+    public function withValidator($validator)
+    {
+        // checks user current password
+        // before making changes
+        $validator->after(function ($validator) {
+            if ( !Hash::check($this->current_password, $this->user()->password) ) {
+                $validator->errors()->add('current_password', 'Your current password is incorrect.');
+            }
+        });
+        return;
+    }
+
+    public function failedValidation($validator)
     {
         $response = responseApi(403,$validator->errors()->first());
-        throw (new ValidationException($validator, $response))->status(400);
+        throw (new ValidationException($validator, $response))->status(403);
     }
 }

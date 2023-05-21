@@ -11,7 +11,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\CreatePasswordRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\ForgetPasswordRequest;
+use App\Http\Requests\ChangePasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -170,10 +170,10 @@ class AuthController extends Controller
         ]);
     }
 
-    public function changePassword(ForgetPasswordRequest $request)
+    public function changePassword(ChangePasswordRequest $request)
     {
 
-        $user = User::where('id', $request->user_id)->first();
+        $user = $this->userModel::where('id', $request->user_id)->first();
 
         if (Hash::check($request->old_password,  $user->password)) {
             $user->update(['password' => $request->new_password]);
