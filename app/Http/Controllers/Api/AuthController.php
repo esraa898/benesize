@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\CreatePasswordRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\EditProfileRequest;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -114,7 +115,7 @@ class AuthController extends Controller
             'area_id' => $request->area_id,
             'address' => $request->address,
             'lat' => $request->lat,
-            'long' => $request->long,
+            'lang' => $request->long,
             'image' => $request->image,
         ]);
 
@@ -146,7 +147,7 @@ class AuthController extends Controller
             return responseApi('false',
                 'Not found user');
         }
-
+        
         if (! $token = JWTAuth::attempt($validator->validated())){
             $token = JWTAuth::attempt(['phone'=>$request->phone,
                 'password'=> $request->password]);
@@ -194,5 +195,51 @@ class AuthController extends Controller
     public function refresh()
     {
         return $this->createNewToken(auth()->refresh());
+    }
+
+    public function editProfile(EditProfileRequest $request)
+    {
+        
+        $user = $this->userModel::where('id', $request->user_id)->first();
+        if(! $user){
+            return responseApi('405', 'user not found');
+        }
+        $data['user_id'] = $user->id;
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'country_id' => $request->country_id,
+            'city_id' => $request->city_id,
+            'area_id' => $request->area_id,
+            'address' => $request->address,
+            'lat' => $request->lat,
+            'lang' => $request->lang,
+            'image' => $request->image,
+            'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+        ]);
+
+        return responseApi('success', __('api.user profile update'), auth()->user());
+    }
+
+    public function removeAccount(Request $request)
+    {
+        $user = $this->userModel::where('id', $request->user_id)->first();
+       
+        if (Hash::check($request->password,  $user->password)) 
+        {
+            auth()->user()->delete();
+            auth()->logout();
+
+            return responseApi('200', __('api.Account deleted'));
+        }
+        return responseApi('500', __('api.password is incorrect'));
+    }
+
+    public function userProfile()
+    {
+        return responseApi('success', translate('get_data_success'),  new UserResource(auth()->user()));
     }
 }
