@@ -27,6 +27,9 @@ Route::post('/changePassword', [AuthController::class, 'changePassword']);
 Route::post('logout', [AuthController::class, 'logout']);
 Route::post('refresh', [AuthController::class, 'refresh']);
 
+Route::post('/editProfile', [AuthController::class, 'editProfile']);
+Route::post('/removeAccount', [AuthController::class, 'removeAccount']);
+Route::get('/profile', [AuthController::class, 'userProfile']);
 
     /////////////////////////////////////////////
     ///                     info              ///
