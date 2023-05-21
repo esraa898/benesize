@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\ColorController;
 use App\Http\Controllers\Api\GeneralController;
+use App\Http\Controllers\Api\SupportController;
+use GuzzleHttp\Middleware;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CategoryController;
 
@@ -27,6 +29,8 @@ Route::post('/removeAccount', [AuthController::class, 'removeAccount']);
 Route::get('/profile', [AuthController::class, 'userProfile']);
 
 Route::post('uploadImage', [AuthController::class, 'uploadImage']);
+
+Route::post('support', [SupportController::class, 'store']);
 
     /////////////////////////////////////////////
     ///                     info              ///
