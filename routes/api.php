@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\GeneralController;
+use GuzzleHttp\Middleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +34,9 @@ Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('countries', [GeneralController::class, 'countries']);
     Route::get('cities', [GeneralController::class, 'cities']);
     Route::get('areas', [GeneralController::class, 'areas']);
+
+   
+    Route::middleware('auth.guard:api')->group(function () {
+        Route::get('sliders',[HomeController::class,'sliders']);
+    });
+

@@ -2,24 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Utils\Util;
+use App\Models\Area;
+use App\Models\City;
+use App\Models\Slider;
+use App\Models\Country;
+use Illuminate\Http\Request;
+use function App\Helpers\translate;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AreaResource;
 use App\Http\Resources\CityResource;
 use App\Http\Resources\CountryResource;
-use App\Models\Area;
-use App\Models\City;
-use App\Models\Country;
-use App\Utils\Util;
-use Illuminate\Http\Request;
-use function App\Helpers\translate;
 
 class GeneralController extends Controller
 {
 
     protected $count_paginate = 10;
+    protected $sliderModel;
 
-    public function __construct()
+    public function __construct(Slider $slider)
     {
+        $this->sliderModel=$slider;
 
     }
 
@@ -28,14 +31,14 @@ class GeneralController extends Controller
         $count_paginate=$request->count_paginate?:$this->count_paginate;
         $countries= Country::orderBy('sort', 'desc')->simplePaginate($count_paginate);
 
-        return responseApi('success',translate('return_data_success'), CountryResource::collection($countries));
+        return responseApi(200,translate('return_data_success'), CountryResource::collection($countries));
     }
     public function cities(Request $request){
         $validator = validator($request->all(), [
             'country_id' => 'nullable|integer|exists:countries,id',
         ]);
         if ($validator->fails())
-            return responseApi('false', $validator->errors()->all());
+            return responseApi(403, $validator->errors()->all());
 
         $count_paginate=$request->count_paginate?:$this->count_paginate;
         $cities= City::orderBy('sort', 'desc');
@@ -44,7 +47,7 @@ class GeneralController extends Controller
         }
         $cities=  $cities->simplePaginate($count_paginate);
 
-        return responseApi('success',translate('return_data_success'), CityResource::collection($cities));
+        return responseApi(200,translate('return_data_success'), CityResource::collection($cities));
     }
 
 
@@ -53,7 +56,7 @@ class GeneralController extends Controller
             'city_id' => 'nullable|integer|exists:cities,id',
         ]);
         if ($validator->fails())
-            return responseApi('false', $validator->errors()->all());
+            return responseApi(403, $validator->errors()->all());
 
         $count_paginate=$request->count_paginate?:$this->count_paginate;
         $areas= Area::orderBy('sort', 'desc');
@@ -62,7 +65,8 @@ class GeneralController extends Controller
         }
         $areas=  $areas->simplePaginate($count_paginate);
 
-        return responseApi('success',translate('return_data_success'), AreaResource::collection($areas));
+        return responseApi('200',translate('return_data_success'), AreaResource::collection($areas));
     }
+
 }
 
