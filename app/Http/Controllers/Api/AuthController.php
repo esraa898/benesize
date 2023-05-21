@@ -242,4 +242,31 @@ class AuthController extends Controller
     {
         return responseApi('success', translate('get_data_success'),  new UserResource(auth()->user()));
     }
+
+    public function uploadImage(Request $request)
+    {
+        $validator = validator($request->all(), [
+            'image' => 'required|Image|mimes:jpeg,jpg,png,gif',//|max:10000',
+        ]);
+
+        $user = auth()->user();
+      
+        if ($validator->fails())return responseApi('false', $validator->errors()->all());
+
+        $image = $user->getFirstMedia('images');
+
+        if($image){
+            $image->delete();
+        }
+
+        $uploadedFile = $request->file('image');
+        $extension = $uploadedFile->getClientOriginalExtension();
+        $user->addMedia($uploadedFile)
+            ->usingFileName(time().'.'.$extension)
+            ->toMediaCollection('images');
+
+        $user = $this->userModel::where('id', $request->user_id)->first();
+        return responseApi('success', translate('user profile update'), new UserResource($user));
+    }
+
 }
