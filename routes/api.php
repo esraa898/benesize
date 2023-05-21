@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\GeneralController;
+use App\Http\Controllers\Api\SupportController;
 use GuzzleHttp\Middleware;
 
 
@@ -23,6 +24,8 @@ Route::post('/removeAccount', [AuthController::class, 'removeAccount']);
 Route::get('/profile', [AuthController::class, 'userProfile']);
 
 Route::post('uploadImage', [AuthController::class, 'uploadImage']);
+
+Route::post('support', [SupportController::class, 'store']);
 
     /////////////////////////////////////////////
     ///                     info              ///
