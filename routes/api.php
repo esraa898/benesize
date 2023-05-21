@@ -7,16 +7,7 @@ use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\GeneralController;
 use GuzzleHttp\Middleware;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+
 
 Route::post('/checkPhoneNumber',[AuthController::class, 'checkPhone']);
 Route::post('/verificationCodeNumber',[AuthController::class, 'checkCode']);
@@ -30,6 +21,8 @@ Route::post('refresh', [AuthController::class, 'refresh']);
 Route::post('/editProfile', [AuthController::class, 'editProfile']);
 Route::post('/removeAccount', [AuthController::class, 'removeAccount']);
 Route::get('/profile', [AuthController::class, 'userProfile']);
+
+Route::post('uploadImage', [AuthController::class, 'uploadImage']);
 
     /////////////////////////////////////////////
     ///                     info              ///
