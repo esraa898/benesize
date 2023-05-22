@@ -14,7 +14,6 @@ use App\Http\Controllers\Api\CategoryController;
 
 
 
-
 Route::post('/checkPhoneNumber',[AuthController::class, 'checkPhone']);
 Route::post('/verificationCodeNumber',[AuthController::class, 'checkCode']);
 Route::post('/savePassword',[AuthController::class, 'save_password']);
