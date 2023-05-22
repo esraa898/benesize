@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\ColorController;
 use App\Http\Controllers\Api\GeneralController;
 use App\Http\Controllers\Api\SupportController;
-use GuzzleHttp\Middleware;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CategoryController;
 
