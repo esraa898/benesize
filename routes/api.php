@@ -1,12 +1,17 @@
 <?php
 
+use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\SizeController;
+use App\Http\Controllers\Api\ColorController;
 use App\Http\Controllers\Api\GeneralController;
 use App\Http\Controllers\Api\SupportController;
-use GuzzleHttp\Middleware;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\CategoryController;
+
 
 
 
@@ -34,8 +39,12 @@ Route::post('support', [SupportController::class, 'store']);
     Route::get('cities', [GeneralController::class, 'cities']);
     Route::get('areas', [GeneralController::class, 'areas']);
 
-   
+
     Route::middleware('auth.guard:api')->group(function () {
         Route::get('sliders',[HomeController::class,'sliders']);
+        Route::get('products',[ProductController::class,'index']);
+        Route::get('categories',[CategoryController::class,'index']);
+        Route::get('color',[ColorController::class,'index']);
+        Route::get('size',[SizeController::class,'index']);
     });
 
