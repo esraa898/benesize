@@ -144,10 +144,10 @@ class AuthController extends Controller
             $request->phone)->first();
 
         if(!$user){
-            return responseApi('false',
+            return responseApi('500',
                 'Not found user');
         }
-        
+
         if (! $token = JWTAuth::attempt($validator->validated())){
             $token = JWTAuth::attempt(['phone'=>$request->phone,
                 'password'=> $request->password]);
@@ -199,7 +199,7 @@ class AuthController extends Controller
 
     public function editProfile(EditProfileRequest $request)
     {
-        
+
         $user = $this->userModel::where('id', $request->user_id)->first();
         if(! $user){
             return responseApi('405', 'user not found');
@@ -227,8 +227,8 @@ class AuthController extends Controller
     public function removeAccount(Request $request)
     {
         $user = $this->userModel::where('id', $request->user_id)->first();
-       
-        if (Hash::check($request->password,  $user->password)) 
+
+        if (Hash::check($request->password,  $user->password))
         {
             auth()->user()->delete();
             auth()->logout();
@@ -250,7 +250,7 @@ class AuthController extends Controller
         ]);
 
         $user = auth()->user();
-      
+
         if ($validator->fails())return responseApi('false', $validator->errors()->all());
 
         $image = $user->getFirstMedia('images');

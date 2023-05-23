@@ -39,11 +39,11 @@ Route::post('support', [SupportController::class, 'store']);
     Route::get('areas', [GeneralController::class, 'areas']);
 
 
-    Route::middleware('auth.guard:api')->group(function () {
+
         Route::get('sliders',[HomeController::class,'sliders']);
         Route::get('products',[ProductController::class,'index']);
         Route::get('categories',[CategoryController::class,'index']);
         Route::get('color',[ColorController::class,'index']);
         Route::get('size',[SizeController::class,'index']);
-    });
+   
 
