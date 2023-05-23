@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Models\Color;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ColorsResource;
 
 class ColorController extends Controller
 {
     public function index()
     {
         $colors = Color::all();
-        return responseApi('success', "Colors Found", $colors);
+        $data= ColorsResource::collection($colors);
+        return responseApi('200', "Colors Found", $data);
     }
 
     public function store(Request $request)

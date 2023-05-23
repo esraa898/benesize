@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Models\Size;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SizesResource;
 
 class SizeController extends Controller
 {
     public function index()
     {
         $sizes = Size::all();
+        $data= SizesResource::collection($sizes);
 
-        return responseApi('success', "Sizes Found", $sizes);
+        return responseApi('200', "Sizes Found", $data);
     }
 
     public function create()

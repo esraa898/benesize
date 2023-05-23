@@ -2,18 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
     use HasFactory;
+
 
     public static $rules = [
         'name' => 'required|max:100',
         'description' => 'required|string',
         'min_price' => 'required|numeric|min:0',
         'max_price' => 'required|numeric|min:0',
+        'price' => 'required|numeric|min:0',
         'category_id' => 'required|exists:categories, id',
     ];
 
@@ -23,6 +27,7 @@ class Product extends Model
         'min_price',
         'category_id',
         'max_price',
+        'price'
     ];
 
     public function category() {
