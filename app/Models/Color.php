@@ -12,4 +12,10 @@ class Color extends Model
         'name',
         'rgb',
         ];
+
+
+
+        public function products(){
+            return $this->belongsToMany(Product::class);
+        }
 }

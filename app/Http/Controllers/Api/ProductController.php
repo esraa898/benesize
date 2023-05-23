@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
@@ -17,7 +18,8 @@ class ProductController extends Controller
             ->with("colors")
             ->with("sizes")
             ->get();
-        return responseApi('success', "Products Found", $products);
+            $data= ProductResource::collection($products);
+        return responseApi('200', "Products Found", $data);
     }
 
     public function create() {

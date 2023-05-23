@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string("name");
             $table->text("description");
             $table->double("min_price");
+            $table->double("max_price");
             $table->foreignId("category_id")->constrained();
             $table->timestamps();
         });
