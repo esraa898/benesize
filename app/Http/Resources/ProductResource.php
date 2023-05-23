@@ -22,6 +22,7 @@ class ProductResource extends JsonResource
             "description"    => $this->description,
             "min_price"      => $this->min_price,
             "max_price"      => $this->max_price,
+            'color_count'    => $this->colors->count(),
             'category'       => $this->category->name,
             'colors'         => ProductColorsResource::collection($this->colors),
             'sizes'          => ProductSizesResource::collection($this->sizes),

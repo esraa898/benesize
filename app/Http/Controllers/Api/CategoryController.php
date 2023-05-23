@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
     public function index()
     {
         $categories = Category::all();
-        return responseApi('success', "Categories Found", $categories);
+        $data= CategoryResource::collection($categories);
+        return responseApi('200', "Categories Found", $data);
     }
 
     public function store(Request $request)
