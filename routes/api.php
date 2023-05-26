@@ -34,16 +34,16 @@ Route::post('/support', [SupportController::class, 'store']);
     /////////////////////////////////////////////
     ///                     info              ///
     /// /////////////////////////////////////////
-    Route::get('/countries', [GeneralController::class, 'countries']);
-    Route::get('/cities', [GeneralController::class, 'cities']);
-    Route::get('/areas', [GeneralController::class, 'areas']);
+Route::get('/countries', [GeneralController::class, 'countries']);
+Route::get('/cities', [GeneralController::class, 'cities']);
+Route::get('/areas', [GeneralController::class, 'areas']);
 
 
 
-        Route::get('/sliders',[HomeController::class,'sliders']);
-        Route::get('/products',[ProductController::class,'index']);
-        Route::get('/categories',[CategoryController::class,'index']);
-        Route::get('/color',[ColorController::class,'index']);
-        Route::get('/size',[SizeController::class,'index']);
-   
+Route::get('/sliders',[HomeController::class,'sliders']);
+Route::get('/products',[ProductController::class,'index']);
+Route::get('/categories',[CategoryController::class,'index']);
+Route::get('/color',[ColorController::class,'index']);
+Route::get('/size',[SizeController::class,'index']);
 
+Route::get('/home',[HomeController::class,'get_home_info']);
