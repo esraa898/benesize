@@ -49,3 +49,8 @@ Route::get('/size',[SizeController::class,'index']);
 Route::get('/home',[HomeController::class,'get_home_info']);
 
 Route::get('/product/{id}',[ProductController::class,'']);
+
+Route::post('/addFavProduct',[ProductController::class,'add_fav_product']);
+
+Route::post('/removeFavProduct',[ProductController::class,'remove_fav_product']);
+Route::post('/getFavouriteProducts',[ProductController::class,'get_favourite_products']);
