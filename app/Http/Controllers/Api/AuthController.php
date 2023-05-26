@@ -118,6 +118,7 @@ class AuthController extends Controller
             'lat' => $request->lat,
             'lang' => $request->long,
             'image' => $request->image,
+            'is_registerd' => 1,
         ]);
 
         $this->sellerModel->create([
@@ -158,10 +159,17 @@ class AuthController extends Controller
             return responseApi('false',
                 'Unauthorized');
         }
+
+        if($user && $user->is_registerd == 0){
+            return responseApi('success',
+                    'please register',
+            $this->createNewToken($token));
+        }
         return responseApi('success',
             translate('user login'),
             $this->createNewToken($token));
     }
+
     protected function createNewToken($token)
     {
         return response()->json([
