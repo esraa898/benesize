@@ -12,15 +12,6 @@ use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
-    public function index()
-    {
-        $products = Product::with("category")
-            ->with("colors")
-            ->with("sizes")
-            ->get();
-            $data= ProductResource::collection($products);
-        return responseApi('200', "Products Found", $data);
-    }
 
     public function create() {
         $categories = Category::all();
