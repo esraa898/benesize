@@ -39,32 +39,33 @@ class AuthController extends Controller
 
         if(is_null($user)){
 
-          $user=  $this->userModel::create([
+          $user = $this->userModel::create([
                 'phone'=>$request->phone,
                 'activation_code'=>  rand ( 1000 , 9999 ),
             ]);
 
             $data = [];
             $data['user_id'] = $user->id;
+            $data['is_active'] = 0;
             return responseApi(200,
-            'activation code sent to your number',$data);
+            'activation code sent to your number', $data);
 
         }else{
-            $data=[];
+            $data = [];
             $data['user_id'] = $user->id;
-            if(!is_null($user->password)){
+            if(! is_null($user->password) ){
                 if($user->is_active == 1){
-                    $data['is_active']= $user->is_active;
+                    $data['is_active'] = $user->is_active;
                     return responseApi(200,
-                    'User registerd ',$data);
+                    'User registerd', $data);
                 }else{
-                    $data['is_active']= $user->is_active;
+                    $data['is_active'] = $user->is_active;
                     return responseApi(200,
-                    'User not registerd  ',$data);
+                    'User not registerd', $data);
                 }
             }else{
                 return responseApi(500,
-                'create password to your account',$data);
+                'create password to your account', $data);
             }
         }
 

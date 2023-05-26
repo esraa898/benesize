@@ -29,10 +29,9 @@ class AssignGuard extends BaseMiddleware
                 //  $user = $this->auth->authenticate($request);  //check authenticted user
                 $user = JWTAuth::parseToken()->authenticate();
             } catch (TokenExpiredException $e) {
-                return responseApi('401', 'Unauthenticated user');
-
+                return responseApi(403, 'Unauthenticated user');
             } catch (JWTException $e) {
-                return responseApi('500', 'token_invalid' . $e->getMessage());
+                return responseApi(403, 'token_invalid' . $e->getMessage());
             }
 
         } else {
@@ -45,7 +44,6 @@ class AssignGuard extends BaseMiddleware
                 } catch (JWTException $e) {
                     return $next($request);
                 }
-//            }
         }
         return $next($request);
     }
