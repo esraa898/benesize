@@ -27,7 +27,11 @@ class Product extends Model
         'min_price',
         'category_id',
         'max_price',
-        'price'
+        'price',
+        'is_new',
+        'is_on_sale',
+        'is_new_arrival',
+        'is_best_seller'
     ];
 
     public function category() {

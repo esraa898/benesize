@@ -8,33 +8,27 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
+    protected $productModel;
+    public function __construct(Product $product)
+    {
+        $this->productModel = $product;
+    }
 
     public function create() {
         $categories = Category::all();
         $colors = Color::all();
         $sizes = Size::all();
 
-        return responseApi('success', "Data Found", compact("categories", "colors", "sizes"));
+        return responseApi(200, "Data Found", compact("categories", "colors", "sizes"));
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $validator = validator($request->all(), [
-            'name' => 'required|max:100',
-            'description' => 'required|string',
-            'min_price' => 'required|numeric|min:0',
-            'max_price' => 'required|numeric|min:0|gt:min_price',
-            'category_id' => 'required|exists:categories,id',
-            'sizes' => 'array',
-            'colors' => 'array',
-        ]);
-
-        if ($validator->fails())
-            return responseApi('false', $validator->errors()->all());
 
         $product = new Product();
 
@@ -42,6 +36,13 @@ class ProductController extends Controller
         $product->description = $request->input("description");
         $product->min_price = $request->input("min_price");
         $product->max_price = $request->input("max_price");
+        $product->max_price = $request->input("price");
+
+        $product->max_price = $request->input("is_best_seller");
+        $product->max_price = $request->input("is_new");
+        $product->max_price = $request->input("is_on_sale");
+        $product->max_price = $request->input("is_new_arrival");
+        
         $product->category_id = $request->input("category_id");
 
         $product->save();
@@ -49,26 +50,26 @@ class ProductController extends Controller
         $product->sizes()->sync($request->input('sizes'));
         $product->colors()->sync($request->input('colors'));
 
-        return responseApi("success", "Product Added", $product);
+        return responseApi(200, "Product Added", $product);
     }
 
     public function show(string $id)
     {
-        $product = Product::with("category")
+        $product = $this->productModel::with("category")
             ->with("colors")
             ->with("sizes")
             ->find($id);
 
         if(!$product) {
-            return responseApi("false", "Product Not Found", $product);
+            return responseApi(500, "Product Not Found", $product);
         }
 
-        return responseApi("success", "Product Found", $product);
+        return responseApi(200, "Product Found", $product);
     }
 
     public function edit($id)
     {
-        $product = Product::with("category")
+        $product = $this->productModel::with("category")
             ->with("colors")
             ->with("sizes")
             ->find($id);
@@ -80,7 +81,7 @@ class ProductController extends Controller
         if (!$product) {
             return responseApi("failed", "Product Not Found", $product);
         }
-        return responseApi("success", "Product Found", compact("product", "sizes", "categories", "colors"));
+        return responseApi(200, "Product Found", compact("product", "sizes", "categories", "colors"));
     }
 
     public function update(Request $request, $id)
@@ -96,7 +97,7 @@ class ProductController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi('false', $validator->errors()->all());
+            return responseApi(403, $validator->errors()->all());
 
         $product = Product::find($id);
 
@@ -111,7 +112,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return responseApi("success", "Product Updated", $product);
+        return responseApi(200, "Product Updated", $product);
     }
 
     public function destroy($id)
@@ -123,6 +124,6 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return responseApi("success", "Product Deleted");
+        return responseApi(200, "Product Deleted");
     }
 }
