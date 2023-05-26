@@ -46,6 +46,6 @@ Route::get('/categories',[CategoryController::class,'index']);
 Route::get('/color',[ColorController::class,'index']);
 Route::get('/size',[SizeController::class,'index']);
 
-Route::get('/home',[HomeController::class,'get_home_info']);
-
+Route::post('/home',[HomeController::class,'get_home_info']);
 Route::get('/product/{id}',[ProductController::class,'']);
+Route::get('/productFilters',[HomeController::class,'product_filters']);
