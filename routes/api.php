@@ -46,6 +46,15 @@ Route::get('/categories',[CategoryController::class,'index']);
 Route::get('/color',[ColorController::class,'index']);
 Route::get('/size',[SizeController::class,'index']);
 
+
 Route::post('/home',[HomeController::class,'get_home_info']);
 Route::get('/product/{id}',[ProductController::class,'']);
 Route::get('/productFilters',[HomeController::class,'product_filters']);
+
+
+
+Route::post('/addFavProduct',[ProductController::class,'add_fav_product']);
+
+Route::post('/removeFavProduct',[ProductController::class,'remove_fav_product']);
+Route::post('/getFavouriteProducts',[ProductController::class,'get_favourite_products']);
+
