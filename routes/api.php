@@ -20,30 +20,30 @@ Route::post('/savePassword',[AuthController::class, 'save_password']);
 Route::post('/register',[AuthController::class, 'register']);
 Route::post('/login',[AuthController::class, 'login']);
 Route::post('/changePassword', [AuthController::class, 'changePassword']);
-Route::post('logout', [AuthController::class, 'logout']);
-Route::post('refresh', [AuthController::class, 'refresh']);
+Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/refresh', [AuthController::class, 'refresh']);
 
 Route::post('/editProfile', [AuthController::class, 'editProfile']);
 Route::post('/removeAccount', [AuthController::class, 'removeAccount']);
 Route::get('/profile', [AuthController::class, 'userProfile']);
 
-Route::post('uploadImage', [AuthController::class, 'uploadImage']);
+Route::post('/uploadImage', [AuthController::class, 'uploadImage']);
 
-Route::post('support', [SupportController::class, 'store']);
+Route::post('/support', [SupportController::class, 'store']);
 
     /////////////////////////////////////////////
     ///                     info              ///
     /// /////////////////////////////////////////
-    Route::get('countries', [GeneralController::class, 'countries']);
-    Route::get('cities', [GeneralController::class, 'cities']);
-    Route::get('areas', [GeneralController::class, 'areas']);
+    Route::get('/countries', [GeneralController::class, 'countries']);
+    Route::get('/cities', [GeneralController::class, 'cities']);
+    Route::get('/areas', [GeneralController::class, 'areas']);
 
 
 
-        Route::get('sliders',[HomeController::class,'sliders']);
-        Route::get('products',[ProductController::class,'index']);
-        Route::get('categories',[CategoryController::class,'index']);
-        Route::get('color',[ColorController::class,'index']);
-        Route::get('size',[SizeController::class,'index']);
+        Route::get('/sliders',[HomeController::class,'sliders']);
+        Route::get('/products',[ProductController::class,'index']);
+        Route::get('/categories',[CategoryController::class,'index']);
+        Route::get('/color',[ColorController::class,'index']);
+        Route::get('/size',[SizeController::class,'index']);
    
 
