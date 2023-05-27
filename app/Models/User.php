@@ -28,8 +28,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         'activation_code',
         'address',
         'lat',
-        'lang',
-        'image',
+        'long',
         'is_active',
         'is_registerd',
         'city_id',
@@ -89,4 +88,5 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     {
         return $this->hasOne(Seller::class);
     }
+
 }

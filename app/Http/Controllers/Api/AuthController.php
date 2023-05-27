@@ -24,9 +24,9 @@ class AuthController extends Controller
 
     public function __construct(User $user, Seller $seller)
     {
-       $this->userModel = $user;
-       $this->sellerModel = $seller;
-       $this->middleware('auth.guard:api', ['except' => ['login', 'register', "sellerRegister", 'forgotPassword', 'checkPhone','checkCode', 'customRemoveAccount','ActiveRemoveAccount','save_password']]);
+        $this->userModel = $user;
+        $this->sellerModel = $seller;
+        $this->middleware('auth.guard:api', ['except' => ['login', 'register', "sellerRegister", 'forgotPassword', 'checkPhone','checkCode', 'customRemoveAccount','ActiveRemoveAccount','save_password']]);
     }
 
     public function checkPhone(Request $request){
@@ -39,33 +39,32 @@ class AuthController extends Controller
 
         if(is_null($user)){
 
-          $user = $this->userModel::create([
+            $user=  $this->userModel::create([
                 'phone'=>$request->phone,
                 'activation_code'=>  rand ( 1000 , 9999 ),
             ]);
 
             $data = [];
             $data['user_id'] = $user->id;
-            $data['is_active'] = 0;
             return responseApi(200,
-            'activation code sent to your number', $data);
+                'activation code sent to your number',$data);
 
         }else{
-            $data = [];
+            $data=[];
             $data['user_id'] = $user->id;
-            if(! is_null($user->password) ){
+            if(!is_null($user->password)){
                 if($user->is_active == 1){
-                    $data['is_active'] = $user->is_active;
+                    $data['is_active']= $user->is_active;
                     return responseApi(200,
-                    'User registerd', $data);
+                        'User registerd ',$data);
                 }else{
-                    $data['is_active'] = $user->is_active;
+                    $data['is_active']= $user->is_active;
                     return responseApi(200,
-                    'User not registerd', $data);
+                        'User not registerd  ',$data);
                 }
             }else{
                 return responseApi(500,
-                'create password to your account', $data);
+                    'create password to your account',$data);
             }
         }
 
@@ -73,21 +72,21 @@ class AuthController extends Controller
 
     public function checkCode(Request $request)
     {
-         $validator = validator($request->all(), [
+        $validator = validator($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
             'code' => 'required|max:4',
         ]);
 
         if ($validator->fails())
-            return responseApi('false', $validator->errors());
+            return responseApi(405, $validator->errors());
 
         $user = $this->userModel::where('id', $request->user_id)->first();
         $data = ['user_id'=>$user->id];
 
         if($user->activation_code == $request->code){
-            return responseApi('200', 'activation code is correct', $data);
+            return responseApi(200, 'activation code is correct', $data);
         }
-        return responseApi('500', 'activation code is incorrect', $data);
+        return responseApi(500, 'activation code is incorrect', $data);
     }
 
     public function save_password(CreatePasswordRequest $request){
@@ -104,29 +103,48 @@ class AuthController extends Controller
         return responseApi(200, 'Password saved successfuly', $data);
     }
 
-    public function register(RegisterRequest $request){
+    public function register(Request $request){
+        $validator = validator($request->all(), [
+            'user_id' => 'required|integer|exists:users,id',
+            'name' => 'required|string|max:200',
+            'store_name' => 'required|string|max:200',
+            'wallet_number' => 'required|string|max:20',
+            'country_id' => 'required|integer|exists:countries,id',
+            'city_id' => 'required|integer|exists:cities,id',
+            'gender' => 'required|string|in:male,female',
+            'date_of_birth' => 'required|date',
+        ]);
+
+        if ($validator->fails())
+            return responseApi(405, $validator->errors());
+
+
         $user = $this->userModel::where('id', $request->user_id)->first();
-        $data['user_id'] = $user->id;
+
 
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
             'country_id' => $request->country_id,
             'city_id' => $request->city_id,
-            'area_id' => $request->area_id,
-            'address' => $request->address,
-            'lat' => $request->lat,
-            'lang' => $request->long,
-            'image' => $request->image,
-            'is_registerd' => 1,
+            'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
         ]);
 
-        $this->sellerModel->create([
-            'user_id' => $user->id,
-            'store_name'=> $request->store_name,
-            'wallet_number' => $request->wallet_number
-        ]);
+        // $this->sellerModel->create([
+        //     'user_id' => $user->id,
+        //     'store_name'=> $request->store_name,
+        //     'wallet_number' => $request->wallet_number
+        // ]);
+        if( $request->hasfile('image')){
+            $uploadedFile = $request->file('image');
+            $extension = $uploadedFile->getClientOriginalExtension();
+            $user->addMedia($uploadedFile)
+                ->usingFileName(time().'.'.$extension)
+                ->toMediaCollection('images');
+        }
 
+        $data['user'] = new UserResource($user);
         return responseApi(200, 'User registered successfuly', $data);
 
     }
@@ -139,14 +157,14 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi('false',
+            return responseApi(405,
                 $validator->errors());
 
         $user = User::where('phone',
             $request->phone)->first();
 
         if(!$user){
-            return responseApi('500',
+            return responseApi(500,
                 'Not found user');
         }
 
@@ -156,28 +174,20 @@ class AuthController extends Controller
         }
 
         if (!$token){
-            return responseApi('false',
+            return responseApi(500,
                 'Unauthorized');
         }
-
-        if($user && $user->is_registerd == 0){
-            return responseApi('success',
-                    'please register',
-            $this->createNewToken($token));
-        }
-        return responseApi('success',
-            translate('user login'),
-            $this->createNewToken($token));
+        return responseApi(200,
+            translate('user login'),$this->createNewToken($token)
+        );
     }
-
     protected function createNewToken($token)
     {
-        return response()->json([
+        return [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
             'user' => new UserResource(auth()->user())
-        ]);
+        ];
     }
 
     public function changePassword(ChangePasswordRequest $request)
@@ -198,7 +208,7 @@ class AuthController extends Controller
     {
 
         auth()->logout();
-        return responseApi('success', translate('user logout'));
+        return responseApi(200, translate('user logout'));
     }
 
     public function refresh()
@@ -211,7 +221,7 @@ class AuthController extends Controller
 
         $user = $this->userModel::where('id', $request->user_id)->first();
         if(! $user){
-            return responseApi('405', 'user not found');
+            return responseApi(405, 'user not found');
         }
         $data['user_id'] = $user->id;
 
@@ -230,7 +240,7 @@ class AuthController extends Controller
             'date_of_birth' => $request->date_of_birth,
         ]);
 
-        return responseApi('success', __('api.user profile update'), auth()->user());
+        return responseApi(200, __('api.user profile update'), auth()->user());
     }
 
     public function removeAccount(Request $request)
@@ -242,9 +252,9 @@ class AuthController extends Controller
             auth()->user()->delete();
             auth()->logout();
 
-            return responseApi('200', __('api.Account deleted'));
+            return responseApi(200, __('api.Account deleted'));
         }
-        return responseApi('500', __('api.password is incorrect'));
+        return responseApi(500, __('api.password is incorrect'));
     }
 
     public function userProfile()
