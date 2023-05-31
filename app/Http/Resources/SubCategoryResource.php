@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CountryResource extends JsonResource
+class SubCategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,11 +15,8 @@ class CountryResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=>$this->id,
-            'title'=>$this->general_title,
-            'img'=>$this->img != null ? asset('assets/images/'.$this->img) : null,
-            'code'=>$this->code_number,
-            'count'=>$this->count_number,
+            'id' => $this->id,
+            'name' => $this->name
         ];
     }
 }

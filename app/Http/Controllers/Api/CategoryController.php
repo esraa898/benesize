@@ -12,7 +12,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $data= CategoryResource::collection($categories);
+        $data = CategoryResource::collection($categories);
         return responseApi('200', "Categories Found", $data);
     }
 

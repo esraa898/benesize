@@ -35,6 +35,9 @@ class AuthController extends Controller
             'phone' => 'required|string',
 
         ]);
+        if ($validator->fails())
+            return responseApi(405, $validator->errors()->first());
+
         $user = $this->userModel::where('phone',$request->phone)->first();
 
         if(is_null($user)){
@@ -49,20 +52,20 @@ class AuthController extends Controller
             return responseApi(200,
                 'activation code sent to your number',$data);
 
-        }else{
-            $data=[];
+        } else{
+            $data = [];
             $data['user_id'] = $user->id;
             if(!is_null($user->password)){
                 if($user->is_active == 1){
                     $data['is_active']= $user->is_active;
                     return responseApi(200,
                         'User registerd ',$data);
-                }else{
+                } else{
                     $data['is_active']= $user->is_active;
                     return responseApi(200,
                         'User not registerd  ',$data);
                 }
-            }else{
+            } else{
                 return responseApi(500,
                     'create password to your account',$data);
             }
@@ -118,9 +121,7 @@ class AuthController extends Controller
         if ($validator->fails())
             return responseApi(405, $validator->errors());
 
-
         $user = $this->userModel::where('id', $request->user_id)->first();
-
 
         $user->update([
             'name' => $request->name,

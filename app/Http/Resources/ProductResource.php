@@ -28,7 +28,7 @@ class ProductResource extends JsonResource
             "is_new_arrival" => $this->is_new_arrival,
             "is_best_seller" => $this->is_best_seller,
             'color_count'    => $this->colors->count(),
-            'category'       => $this->category->name,
+            'sub_category'   => new SubCategoryResource($this->subCategory),
             'colors'         => ProductColorsResource::collection($this->colors),
             'sizes'          => ProductSizesResource::collection($this->sizes),
 
