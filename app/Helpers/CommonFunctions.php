@@ -6,7 +6,7 @@ if (!function_exists('responseApi')) {
     {
         return response([
 
-            'statsu' => $status ,
+            'status' => $status ,
             'message' => $message,
             'data' => $data,
         ]);

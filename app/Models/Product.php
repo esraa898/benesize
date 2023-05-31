@@ -4,6 +4,7 @@ namespace App\Models;
 
 
 
+use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -18,14 +19,14 @@ class Product extends Model
         'min_price' => 'required|numeric|min:0',
         'max_price' => 'required|numeric|min:0',
         'price' => 'required|numeric|min:0',
-        'category_id' => 'required|exists:categories, id',
+        'sub_category_id' => 'required|exists:sub_categories, id',
     ];
 
     protected $fillable = [
         'name',
         'description',
         'min_price',
-        'category_id',
+        'sub_category_id',
         'max_price',
         'price',
         'is_new',
@@ -37,7 +38,9 @@ class Product extends Model
     public function category() {
         return $this->belongsTo(Category::class);
     }
-
+    public function subCategory() {
+        return $this->belongsTo(SubCategory::class);
+    }
     public function sizes(){
         return $this->belongsToMany(Size::class);
     }
