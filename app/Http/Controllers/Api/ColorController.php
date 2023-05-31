@@ -24,7 +24,7 @@ class ColorController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi('false', $validator->errors()->all());
+            return responseApi(403, $validator->errors()->all());
 
         $color = new Color();
 
@@ -33,7 +33,7 @@ class ColorController extends Controller
 
         $color->save();
 
-        return responseApi("success", "Color Added", $color);
+        return responseApi(200, "Color Added", $color);
     }
 
     public function show(string $id)
@@ -41,10 +41,10 @@ class ColorController extends Controller
         $color = Color::find($id);
 
         if(!$color) {
-            return responseApi("false", "Color Not Found", $color);
+            return responseApi(500, "Color Not Found", $color);
         }
 
-        return responseApi("success", "Color Found", $color);
+        return responseApi(200, "Color Found", $color);
     }
 
     public function edit(Request $request, $id)
@@ -52,9 +52,9 @@ class ColorController extends Controller
         $color = Color::find($id);
 
         if (!$color) {
-            return responseApi("failed", "Color Not Found", $color);
+            return responseApi(500, "Color Not Found", $color);
         }
-        return responseApi("success", "Color Found", $color);
+        return responseApi(200, "Color Found", $color);
     }
 
     public function update(Request $request, $id)
@@ -64,18 +64,18 @@ class ColorController extends Controller
         $color->rgb = $request->input("rgb");
         $color->save();
 
-        return responseApi("success", "Color Updated", $color);
+        return responseApi(200, "Color Updated", $color);
     }
 
     public function destroy(Request $request, $id)
     {
         $color = Color::find($id);
         if (!$color) {
-            return responseApi("failed", "Color Not Found", $color);
+            return responseApi(500, "Color Not Found", $color);
         }
 
         $color->delete();
 
-        return responseApi("success", "Color Deleted");
+        return responseApi(200, "Color Deleted");
     }
 }

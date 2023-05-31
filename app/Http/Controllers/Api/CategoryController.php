@@ -13,7 +13,7 @@ class CategoryController extends Controller
     {
         $categories = Category::all();
         $data = CategoryResource::collection($categories);
-        return responseApi('200', "Categories Found", $data);
+        return responseApi(200, "Categories Found", $data);
     }
 
     public function store(Request $request)
@@ -23,7 +23,7 @@ class CategoryController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi('false', $validator->errors()->all());
+            return responseApi(403, $validator->errors()->all());
 
         $category = new Category();
 
@@ -31,7 +31,7 @@ class CategoryController extends Controller
 
         $category->save();
 
-        return responseApi("success", "Category Added", $category);
+        return responseApi(200, "Category Added", $category);
     }
 
     public function show(string $id)
@@ -39,10 +39,10 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         if(!$category) {
-            return responseApi("false", "Category Not Found", $category);
+            return responseApi(500, "Category Not Found", $category);
         }
 
-        return responseApi("success", "Category Found", $category);
+        return responseApi(200, "Category Found", $category);
     }
 
     public function edit(Request $request, $id)
@@ -50,9 +50,9 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         if (!$category) {
-            return responseApi("failed", "Category Not Found", $category);
+            return responseApi(500, "Category Not Found", $category);
         }
-        return responseApi("success", "Category Found", $category);
+        return responseApi(200, "Category Found", $category);
     }
 
     public function update(Request $request, $id)
@@ -62,18 +62,18 @@ class CategoryController extends Controller
         $category->name = $request->input("name");
         $category->save();
 
-        return responseApi("success", "Category Updated", $category);
+        return responseApi(200, "Category Updated", $category);
     }
 
     public function destroy(Request $request, $id)
     {
         $category = Category::find($id);
         if (!$category) {
-            return responseApi("failed", "Category Not Found", $category);
+            return responseApi(500, "Category Not Found", $category);
         }
 
         $category->delete();
 
-        return responseApi("success", "Category Deleted");
+        return responseApi(200, "Category Deleted");
     }
 }

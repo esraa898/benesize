@@ -260,7 +260,7 @@ class AuthController extends Controller
 
     public function userProfile()
     {
-        return responseApi('success', translate('get_data_success'),  new UserResource(auth()->user()));
+        return responseApi(200, translate('get_data_success'),  new UserResource(auth()->user()));
     }
 
     public function uploadImage(Request $request)
@@ -286,7 +286,7 @@ class AuthController extends Controller
             ->toMediaCollection('images');
 
         $user = $this->userModel::where('id', $request->user_id)->first();
-        return responseApi('success', translate('user profile update'), new UserResource($user));
+        return responseApi(200, translate('user profile update'), new UserResource($user));
     }
 
 }
