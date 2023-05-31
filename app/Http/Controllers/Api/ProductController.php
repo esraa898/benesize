@@ -80,7 +80,7 @@ class ProductController extends Controller
         $colors = Color::all();
 
         if (!$product) {
-            return responseApi("failed", "Product Not Found", $product);
+            return responseApi(500, "Product Not Found", $product);
         }
         return responseApi(200, "Product Found", compact("product", "sizes", "categories", "colors"));
     }
@@ -120,7 +120,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if (!$product) {
-            return responseApi("failed", "Product Not Found", $product);
+            return responseApi(500, "Product Not Found", $product);
         }
 
         $product->delete();

@@ -1,17 +1,17 @@
 <?php
 
 namespace App\Models;
-
-
-
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Product extends Model
-{
+class Product extends Model implements HasMedia {
+    use InteractsWithMedia;
     use HasFactory;
-
+    use HasMediaTrait;
 
     public static $rules = [
         'name' => 'required|max:100',
@@ -49,5 +49,14 @@ class Product extends Model
         return $this->belongsToMany(Color::class);
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('images')
+            ->registerMediaConversions(function (Media $media) {
+                $this->addMediaConversion('thumb')
+                    ->width(100)
+                    ->height(100);
+            });
+    }
     
 }

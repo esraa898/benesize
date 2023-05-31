@@ -23,6 +23,7 @@ class ProductResource extends JsonResource
             'price'          => $this->price,
             "min_price"      => $this->min_price,
             "max_price"      => $this->max_price,
+            'image'          =>$this->getFirstMedia('images') != null ? $this->getFirstMedia('images')->getUrl() : null,
             "is_new"         => $this->is_new,
             "is_on_sale"     => $this->is_on_sale,
             "is_new_arrival" => $this->is_new_arrival,
