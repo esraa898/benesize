@@ -46,5 +46,9 @@ class Product extends Model
         return $this->belongsToMany(Color::class);
     }
 
-    
+    public function ProductOffer(){
+        return $this->hasOne(ProductOffer::class,'product_id');
+    }
+
+
 }

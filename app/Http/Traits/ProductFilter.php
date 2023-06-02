@@ -12,6 +12,10 @@ trait ProductFilter
     {
         $query = Product::with('category','colors','sizes');
 
+        $query->when(request('search'), function ($q, $search) {
+            return $q->where('name', 'LIKE', '%'. $search .'%');
+        });
+
         $query->when(request('is_new'), function ($q, $is_new) {
             return $q->where('is_new',$is_new);
         });
@@ -44,6 +48,12 @@ trait ProductFilter
             return $q->where('price','>=',$min_price);
         });
 
+        $query->when(request('offers'), function ($q) {
+            return $q->whereHas('productOffer',function($offername) {
+                return $offername->where('status',1);
+               });
+
+        });
 
 
         return $query->get();

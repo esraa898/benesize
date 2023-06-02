@@ -8,7 +8,6 @@ use App\Models\Slider;
 use App\Models\Product;
 
 use App\Http\Traits\ProductFilter;
-use function App\Helpers\translate;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SizesResource;
 use App\Http\Resources\ColorsResource;

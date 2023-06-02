@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\ProductColorsResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductResource extends JsonResource
+class ProductDetailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,11 +14,11 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+         return [
 
             "id"             => $this->id,
             "name"           => $this->name,
-            'image'          => $this->image,
+            "description"    => $this->description,
             'price'          => $this->price,
             "min_price"      => $this->min_price,
             "max_price"      => $this->max_price,
@@ -28,7 +27,7 @@ class ProductResource extends JsonResource
             "is_new_arrival" => $this->is_new_arrival,
             "is_best_seller" => $this->is_best_seller,
             'color_count'    => $this->colors->count(),
-            'discount_precenatge'=> $this->productOffer->discount_percentage,
+            'category'       => $this->category->name,
             'colors'         => ProductColorsResource::collection($this->colors),
             'sizes'          => ProductSizesResource::collection($this->sizes),
 
