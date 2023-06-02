@@ -55,6 +55,10 @@ class Product extends Model implements HasMedia {
         return $this->hasOne(ProductOffer::class,'product_id');
     }
 
+    public function  colorProducts(){
+        return $this->hasMany(ColorProduct::class,'product_id')->with('productColorSizes');
+    }
+
 
     public function registerMediaCollections(): void
     {

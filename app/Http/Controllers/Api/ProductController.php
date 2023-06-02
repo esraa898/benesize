@@ -10,30 +10,31 @@ use Illuminate\Http\Request;
 use App\Models\FavouriteProduct;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Http\Resources\ProductDetailResource;
 use App\Http\Resources\ProductResource;
+use App\Models\ColorProduct;
 
 class ProductController extends Controller
 {
     protected $productModel;
-    public function __construct(Product $product)
+    protected $colorProductModel;
+    public function __construct(Product $product,ColorProduct $colorProduct)
     {
         $this->productModel = $product;
+        $this->colorProductModel=$colorProduct;
     }
 
 
     public function productDetail($id)
     {
-        $product = $this->productModel::with("category")
-            ->with("colors")
-            ->with("sizes")
-            ->find($id);
-            $data=$product;
+        $product = $this->colorProductModel::with('product')->where('product_id',$id)->first();
+        $data= New ProductDetailResource($product);
 
 
             return responseApi('200', "product details Found", $data);
     }
 
-     
+
 
 
     public function add_fav_product(Request $request){

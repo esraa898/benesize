@@ -16,20 +16,16 @@ class ProductDetailResource extends JsonResource
     {
          return [
 
-            "id"             => $this->id,
-            "name"           => $this->name,
-            "description"    => $this->description,
-            'price'          => $this->price,
-            "min_price"      => $this->min_price,
-            "max_price"      => $this->max_price,
-            "is_new"         => $this->is_new,
-            "is_on_sale"     => $this->is_on_sale,
-            "is_new_arrival" => $this->is_new_arrival,
-            "is_best_seller" => $this->is_best_seller,
-            'color_count'    => $this->colors->count(),
-            'category'       => $this->category->name,
-            'colors'         => ProductColorsResource::collection($this->colors),
-            'sizes'          => ProductSizesResource::collection($this->sizes),
+            'id'             => $this->id,
+            'name'           => $this->product->name,
+            'description'    => $this->product->description,
+            'price'          => $this->product->price,
+            'min_price'      => $this->product->min_price,
+            'repeat_times'   => $this->product->repeat_times,
+            'increase_ratio' => $this->product->increase_ratio,
+            'max_price'      => $this->product->min_price + ($this->product->increase_ratio * ($this->product->repeat_times+1)),
+            'images'         => $this->getMedia('images') != null ? $this->getMedia('images') : null,
+            'product_color_size'=> ProductColorSizeResource::collection($this->productColorSizes),
 
         ];
     }
