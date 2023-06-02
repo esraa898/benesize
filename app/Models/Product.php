@@ -1,16 +1,18 @@
 <?php
 
 namespace App\Models;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use App\Models\SubCategory;
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Product extends Model implements HasMedia {
     use InteractsWithMedia;
     use HasFactory;
+
 
     public static $rules = [
         'name' => 'required|max:100',
@@ -48,6 +50,12 @@ class Product extends Model implements HasMedia {
         return $this->belongsToMany(Color::class);
     }
 
+
+    public function ProductOffer(){
+        return $this->hasOne(ProductOffer::class,'product_id');
+    }
+
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images')
@@ -57,5 +65,6 @@ class Product extends Model implements HasMedia {
                     ->height(100);
             });
     }
-    
+
+
 }

@@ -14,7 +14,7 @@ class DropForeignKeyFromProducts extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropIndex('products_category_id_foreign');
+            $table->dropForeign('products_category_id_foreign');
             $table->dropColumn('category_id');
         });
     }

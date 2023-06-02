@@ -17,7 +17,7 @@ class ProductColorsResource extends JsonResource
         return  [
             'id'   => $this->id ,
             'name' =>$this->name,
-            'rgb'  => $this->rgb,
+            'hexa'  => $this->hexa,
         ];
     }
 }

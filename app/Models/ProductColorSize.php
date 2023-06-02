@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ProductColorSize extends Model
 {
     use HasFactory;
+
+    protected $fillable=[
+       'color_product_id','product_size_id'
+    ];
 }

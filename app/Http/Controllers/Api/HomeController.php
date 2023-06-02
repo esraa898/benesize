@@ -8,7 +8,6 @@ use App\Models\Slider;
 use App\Models\Product;
 
 use App\Http\Traits\ProductFilter;
-use function App\Helpers\translate;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SizesResource;
 use App\Http\Resources\ColorsResource;
@@ -36,7 +35,8 @@ class HomeController extends Controller
     public function get_home_info(Request $request){
         $data = array();
         $products =  $this->products();
-        $data['products'] = ProductResource::collection($products);
+        // $data['products'] = ProductResource::collection($products);
+        $data['products'] = $products;
 
         $slider_response = $this->sliders();
         $data ['slider'] = $slider_response;

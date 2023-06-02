@@ -49,7 +49,7 @@ Route::get('/size',[SizeController::class,'index']);
 
 
 Route::post('/home',[HomeController::class,'get_home_info']);
-Route::get('/product/{id}',[ProductController::class,'']);
+Route::get('/product/{id}',[ProductController::class,'productDetail']);
 Route::get('/productFilters',[HomeController::class,'product_filters']);
 
 
@@ -61,4 +61,4 @@ Route::post('/getFavouriteProducts',[ProductController::class,'get_favourite_pro
 
 Route::post('/sub_categories',[SubCategoryController::class,'get_all_sub_categories']);
 
-Route::post('/sub_categories',[SubCategoryController::class,'get_all_products']);
+Route::post('/sub_categories/products',[SubCategoryController::class,'get_all_products']);
