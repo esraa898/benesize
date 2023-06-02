@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Product;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Http\Resources\SubCategoryResource;
 
 class SubCategoryController extends Controller
@@ -12,95 +14,39 @@ class SubCategoryController extends Controller
     public function get_all_sub_categories(Request $request){
 
         $validator = validator($request->all(), [
-            "category_id" => "required|string"
+            "category_id" => 'required|exists:categories,id'
         ]);
 
         if ($validator->fails())
             return responseApi(403, $validator->errors()->all());
-         $sub_categories=SubCategory::find($request->category_id)->get();
-        $sub_categories_response =SubCategoryResource::collection($sub_categories) ;
+
+        $sub_categories = SubCategory::with('category')->where('category_id', $request->category_id)->get();
+        $sub_categories_response = SubCategoryResource::collection($sub_categories) ;
 
         if($sub_categories_response->isEmpty()){
             return responseApi(500, "Sub Categories not found");
         }
 
-
-          $data=$sub_categories_response;
+        $data = $sub_categories_response;
         return responseApi(200, "Sub Categories returns successfully", $data);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function get_all_products(Request $request){
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $validator = validator($request->all(), [
+            "sub_category_id" => "required|exists:sub_categories,id"
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        if ($validator->fails())
+            return responseApi(403, $validator->errors()->all());
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $products = Product::with('subCategory')->where('sub_category_id', $request->sub_category_id)->get();
+        if($products->isEmpty()){
+            return responseApi(500, 'Products not found');
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $products_response = ProductResource::collection($products);
+        return responseApi(200, 'Products  found', $products_response);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    
 }
