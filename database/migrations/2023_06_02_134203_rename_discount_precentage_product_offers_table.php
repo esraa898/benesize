@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeDiscountPrecentageProductOffersTable extends Migration
+class RenameDiscountPrecentageProductOffersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class ChangeDiscountPrecentageProductOffersTable extends Migration
     public function up()
     {
         Schema::table('product_offers', function (Blueprint $table) {
-            $table->string('discount_percentage')->change();
-
+            $table->renameColumn('discount_percentage', 'discount_type');
         });
     }
 
