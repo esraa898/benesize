@@ -60,3 +60,5 @@ Route::post('/removeFavProduct',[ProductController::class,'remove_fav_product'])
 Route::post('/getFavouriteProducts',[ProductController::class,'get_favourite_products']);
 
 Route::post('/sub_categories',[SubCategoryController::class,'get_all_sub_categories']);
+
+Route::post('/sub_categories/products',[SubCategoryController::class,'get_all_products']);
