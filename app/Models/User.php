@@ -89,4 +89,9 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $this->hasOne(Seller::class);
     }
 
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
+
 }
