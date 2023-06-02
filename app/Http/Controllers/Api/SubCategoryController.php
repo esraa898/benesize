@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SubCategoryResource;
 
 class SubCategoryController extends Controller
 {
@@ -16,15 +17,15 @@ class SubCategoryController extends Controller
 
         if ($validator->fails())
             return responseApi(403, $validator->errors()->all());
-
-        $sub_categories_response = SubCategory::with('category')->find($request->category_id)->get();
+         $sub_categories=SubCategory::find($request->category_id)->get();
+        $sub_categories_response =SubCategoryResource::collection($sub_categories) ;
 
         if($sub_categories_response->isEmpty()){
             return responseApi(500, "Sub Categories not found");
         }
 
-        $data = array();
-        $data['sub_categories'] = $sub_categories_response;
+
+          $data=$sub_categories_response;
         return responseApi(200, "Sub Categories returns successfully", $data);
     }
     /**

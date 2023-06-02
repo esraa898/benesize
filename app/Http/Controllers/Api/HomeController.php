@@ -35,7 +35,8 @@ class HomeController extends Controller
     public function get_home_info(Request $request){
         $data = array();
         $products =  $this->products();
-        $data['products'] = ProductResource::collection($products);
+        // $data['products'] = ProductResource::collection($products);
+        $data['products'] = $products;
 
         $slider_response = $this->sliders();
         $data ['slider'] = $slider_response;
