@@ -11,7 +11,6 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 class Product extends Model implements HasMedia {
     use InteractsWithMedia;
     use HasFactory;
-    use HasMediaTrait;
 
     public static $rules = [
         'name' => 'required|max:100',
