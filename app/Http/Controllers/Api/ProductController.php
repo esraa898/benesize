@@ -33,6 +33,7 @@ class ProductController extends Controller
             return responseApi('200', "product details Found", $data);
     }
 
+     
 
 
     public function add_fav_product(Request $request){

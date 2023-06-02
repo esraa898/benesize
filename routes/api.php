@@ -8,9 +8,10 @@ use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\ColorController;
 use App\Http\Controllers\Api\GeneralController;
-use App\Http\Controllers\Api\SupportController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\SupportController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\SubCategoryController;
 
 
 
@@ -58,3 +59,4 @@ Route::post('/addFavProduct',[ProductController::class,'add_fav_product']);
 Route::post('/removeFavProduct',[ProductController::class,'remove_fav_product']);
 Route::post('/getFavouriteProducts',[ProductController::class,'get_favourite_products']);
 
+Route::post('/sub_categories',[SubCategoryController::class,'get_all_sub_categories']);

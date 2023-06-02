@@ -29,7 +29,7 @@ class SizeController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi('false', $validator->errors()->all());
+            return responseApi(403, $validator->errors()->all());
 
         $size = new Size();
 
@@ -37,7 +37,7 @@ class SizeController extends Controller
 
         $size->save();
 
-        return responseApi("success", "Size Added", $size);
+        return responseApi(200, "Size Added", $size);
     }
 
 
@@ -51,9 +51,9 @@ class SizeController extends Controller
         $size = Size::find($id);
 
         if (!$size) {
-            return responseApi("failed", "Size Not Found", $size);
+            return responseApi(500, "Size Not Found", $size);
         }
-        return responseApi("success", "Size Found", $size);
+        return responseApi(200, "Size Found", $size);
     }
 
     public function update(Request $request, $id)
@@ -62,18 +62,18 @@ class SizeController extends Controller
         $size->name = $request->input("name");
         $size->save();
 
-        return responseApi("success", "Size Updated", $size);
+        return responseApi(200, "Size Updated", $size);
     }
 
     public function destroy(Request $request, $id)
     {
         $size = Size::find($id);
         if (!$size) {
-            return responseApi("failed", "Size Not Found", $size);
+            return responseApi(500, "Size Not Found", $size);
         }
 
         $size->delete();
 
-        return responseApi("success", "Size Deleted");
+        return responseApi(200, "Size Deleted");
     }
 }
