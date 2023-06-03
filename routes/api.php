@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\GeneralController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SupportController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\SubCategoryController;
 
 
@@ -62,3 +63,8 @@ Route::post('/getFavouriteProducts',[ProductController::class,'get_favourite_pro
 Route::post('/sub_categories',[SubCategoryController::class,'get_all_sub_categories']);
 
 Route::post('/sub_categories/products',[SubCategoryController::class,'get_all_products']);
+
+Route::post('/add_customer',[CustomerController::class,'create_customer']);
+
+Route::post('/get_customers',[CustomerController::class,'get_all_customers_per_user']);
+Route::post('/search_customer',[CustomerController::class,'search_customer']);
