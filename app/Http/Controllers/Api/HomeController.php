@@ -7,14 +7,15 @@ use App\Models\Color;
 use App\Models\Slider;
 use App\Models\Product;
 
+use Illuminate\Http\Request;
 use App\Http\Traits\ProductFilter;
-use function App\Helpers\translate;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SizesResource;
 use App\Http\Resources\ColorsResource;
 use App\Http\Resources\SliderResource;
 use App\Http\Resources\ProductResource;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\ProductColorsResource;
 
 class HomeController extends Controller
 {
@@ -36,7 +37,8 @@ class HomeController extends Controller
     public function get_home_info(Request $request){
         $data = array();
         $products =  $this->products();
-        $data['products'] = ProductResource::collection($products);
+        $data['products'] = ProductColorsResource::collection($products);
+
 
         $slider_response = $this->sliders();
         $data ['slider'] = $slider_response;
@@ -47,13 +49,13 @@ class HomeController extends Controller
     public function product_filters(){
         $colors = Color::get();
         $sizes  = Size::get();
-        $max    = Product::select('max_price')->max('max_price');
-        $min    = Product::select('min_price')->min('min_price');
+        $min    = Product::select('price')->min('price');
+        $max    = Product::select('price')->max('price');
         $data=[
            'sizes' => SizesResource::collection($sizes),
            'colors'=>  ColorsResource::collection($colors) ,
-           'max_price'=> $max,
            'min_price'=>$min,
+           'max_price'=>$max,
 
         ];
         return responseApi('200', "Products Found", $data);

@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\GeneralController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SupportController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\SubCategoryController;
 
 
@@ -49,7 +50,7 @@ Route::get('/size',[SizeController::class,'index']);
 
 
 Route::post('/home',[HomeController::class,'get_home_info']);
-Route::get('/product/{id}',[ProductController::class,'']);
+Route::get('/product/{id}',[ProductController::class,'productDetail']);
 Route::get('/productFilters',[HomeController::class,'product_filters']);
 
 
@@ -60,3 +61,10 @@ Route::post('/removeFavProduct',[ProductController::class,'remove_fav_product'])
 Route::post('/getFavouriteProducts',[ProductController::class,'get_favourite_products']);
 
 Route::post('/sub_categories',[SubCategoryController::class,'get_all_sub_categories']);
+
+Route::post('/sub_categories/products',[SubCategoryController::class,'get_all_products']);
+
+Route::post('/add_customer',[CustomerController::class,'create_customer']);
+
+Route::post('/get_customers',[CustomerController::class,'get_all_customers_per_user']);
+Route::post('/search_customer',[CustomerController::class,'search_customer']);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DropForeignKeyFromProducts extends Migration
+class RenameMaxPriceInProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class DropForeignKeyFromProducts extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropForeign('products_category_id_foreign');
-            $table->dropColumn('category_id');
+            $table->renameColumn('max_price', 'increase_ratio');
         });
     }
 
@@ -27,8 +26,7 @@ class DropForeignKeyFromProducts extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropIndex('products_category_id_foreign');
-            $table->dropColumn('category_id');
+            //
         });
     }
 }
