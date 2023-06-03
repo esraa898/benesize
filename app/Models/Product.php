@@ -42,9 +42,7 @@ class Product extends Model implements HasMedia {
     public function subCategory() {
         return $this->belongsTo(SubCategory::class);
     }
-    public function sizes(){
-        return $this->belongsToMany(Size::class);
-    }
+
 
     public function colors(){
         return $this->belongsToMany(Color::class);

@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Size;
-use App\Models\Color;
+
+
 use App\Models\Product;
-use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\FavouriteProduct;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductDetailResource;
-use App\Http\Resources\ProductResource;
 use App\Models\ColorProduct;
 
 class ProductController extends Controller
