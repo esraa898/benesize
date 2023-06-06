@@ -28,7 +28,7 @@ class ProductController extends Controller
         $data= New ProductDetailResource($product);
 
 
-            return responseApi('200', "product details Found", $data);
+            return responseApi(200, "product details Found", $data);
     }
 
 
@@ -42,7 +42,7 @@ class ProductController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi(403, $validator->errors()->all());
+            return responseApi(403, $validator->errors()->first());
 
         $user = auth()->user();
         if(!$user){
@@ -66,7 +66,7 @@ class ProductController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi(403, $validator->errors()->all());
+            return responseApi(403, $validator->errors()->first());
 
         $whereArray = array();
         $user = auth()->user();
