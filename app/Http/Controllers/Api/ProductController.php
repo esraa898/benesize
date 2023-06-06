@@ -105,14 +105,9 @@ class ProductController extends Controller
         if ($validator->fails())return responseApi('false', $validator->errors()->first());
 
         $uploadedFile = $request->file('image');
-
-        $color = Color::find($request->colorId)->first();
         
         $this->productModel->addMedia($uploadedFile)
-                ->withCustomProperties([
-                    'color_id' => $color->Id
-                    ])
-                ->toMediaCollection('images');
+                ->withCustomProperties(['color_id' => $request->colorId,'product_id' => $request->productId])->toMediaCollection('images');
 
         return responseApi(200, 'image uploaded successfuly');
     }
