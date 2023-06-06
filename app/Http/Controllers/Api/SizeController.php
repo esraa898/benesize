@@ -14,7 +14,7 @@ class SizeController extends Controller
         $sizes = Size::all();
         $data= SizesResource::collection($sizes);
 
-        return responseApi('200', "Sizes Found", $data);
+        return responseApi(200, "Sizes Found", $data);
     }
 
     public function create()
@@ -29,7 +29,7 @@ class SizeController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi(403, $validator->errors()->all());
+            return responseApi(403, $validator->errors()->first());
 
         $size = new Size();
 

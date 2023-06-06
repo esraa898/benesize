@@ -12,8 +12,8 @@ class ColorController extends Controller
     public function index()
     {
         $colors = Color::all();
-        $data= ColorsResource::collection($colors);
-        return responseApi('200', "Colors Found", $data);
+        $data = ColorsResource::collection($colors);
+        return responseApi(200, "Colors Found", $data);
     }
 
     public function store(Request $request)
@@ -24,7 +24,7 @@ class ColorController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi(403, $validator->errors()->all());
+            return responseApi(403, $validator->errors()->first());
 
         $color = new Color();
 

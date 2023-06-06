@@ -29,8 +29,6 @@ class UserResource extends JsonResource
             'gender' => $this->gender,
             'date_of_birth'=>$this->date_of_birth,
             'is_registerd'=>$this->is_registerd,
-            'country'=>new CountryResource($this->country),
-            'city'=>new CityResource($this->city),
             'area'=>new AreaResource($this->area),
 
         ];

@@ -5,7 +5,10 @@
   'user registered' => 'تم انشاء الحساب بنجاح',
   'user logout' => 'تم تسجيل الخروج ',
   'user profile update' => 'تم تعديل البيانات ',
+  'User registerd' => 'هذا الهاتف موجود من قبل',
+  'User not active' => 'هذا المستخدم ليس مفعل',
   'password update' => 'تم تعديل كلمة المرور',
+  'password added' => 'تم أضافة كلمة المرور',
   'old password is incorrect' => 'كلمة المرور القديمة غير صحيحة',
   'Password has been restored' => 'تم استرجاع كلمة المرور',
   'Account deleted' => 'تم حذف الحساب',
@@ -52,5 +55,10 @@
   'thank you' => 'شكرا لك ',
   'return_data_success' => 'Return data success',
   'user login' => 'User login',
-  'get_data_success' => 'Get data success',
+  'get_data_success' => 'تم استرجاع البيانات بنجاح',
+  'activation code is correct' => 'الرمز صحيح',
+  'activation code is not correct' => 'الرمز غير صحيح',
+  'activation code sent' => 'تم ارسال الرمز الي رقم الهاتف',
+  'create password' => 'برجاء انشاء كلمة المرور'
+
 );

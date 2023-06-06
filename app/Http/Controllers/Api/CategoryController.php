@@ -23,7 +23,7 @@ class CategoryController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi(403, $validator->errors()->all());
+            return responseApi(403, $validator->errors()->first());
 
         $category = new Category();
 

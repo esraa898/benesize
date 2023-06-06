@@ -18,7 +18,7 @@ class SubCategoryController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi(403, $validator->errors()->all());
+            return responseApi(403, $validator->errors()->first());
 
         $sub_categories = SubCategory::with('category')->where('category_id', $request->category_id)->get();
         $sub_categories_response = SubCategoryResource::collection($sub_categories) ;
@@ -38,7 +38,7 @@ class SubCategoryController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi(403, $validator->errors()->all());
+            return responseApi(403, $validator->errors()->first());
 
         $products = Product::with('subCategory')->where('sub_category_id', $request->sub_category_id)->get();
         if($products->isEmpty()){

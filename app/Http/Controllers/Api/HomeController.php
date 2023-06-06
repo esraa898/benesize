@@ -43,7 +43,7 @@ class HomeController extends Controller
         $slider_response = $this->sliders();
         $data ['slider'] = $slider_response;
 
-        return responseApi('200', "Products Found", $data);
+        return responseApi(200, "Products Found", $data);
     }
 
     public function product_filters(){
@@ -58,7 +58,7 @@ class HomeController extends Controller
            'max_price'=>$max,
 
         ];
-        return responseApi('200', "Products Found", $data);
+        return responseApi(200, "Products Found", $data);
     }
 
 }

@@ -30,7 +30,7 @@ class CustomerController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi(403, $validator->errors()->all());
+            return responseApi(403, $validator->errors()->first());
        
         $this->customerModel->create([
             'phone_number' => $request->phone_number,
@@ -59,7 +59,7 @@ class CustomerController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi(403, $validator->errors()->all());
+            return responseApi(403, $validator->errors()->first());
 
         $customers = Customer::with('user')->where('user_id', $request->user_id)->get();
         if($customers->isEmpty()){

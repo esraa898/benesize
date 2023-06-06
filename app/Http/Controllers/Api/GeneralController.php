@@ -38,7 +38,7 @@ class GeneralController extends Controller
             'country_id' => 'nullable|integer|exists:countries,id',
         ]);
         if ($validator->fails())
-            return responseApi(403, $validator->errors()->all());
+            return responseApi(403, $validator->errors()->first());
 
         $count_paginate=$request->count_paginate?:$this->count_paginate;
         $cities= City::orderBy('sort', 'desc');
@@ -56,7 +56,7 @@ class GeneralController extends Controller
             'city_id' => 'nullable|integer|exists:cities,id',
         ]);
         if ($validator->fails())
-            return responseApi(403, $validator->errors()->all());
+            return responseApi(403, $validator->errors()->first());
 
         $count_paginate=$request->count_paginate?:$this->count_paginate;
         $areas= Area::orderBy('sort', 'desc');
@@ -65,7 +65,7 @@ class GeneralController extends Controller
         }
         $areas=  $areas->simplePaginate($count_paginate);
 
-        return responseApi('200',translate('return_data_success'), AreaResource::collection($areas));
+        return responseApi(200, translate('return_data_success'), AreaResource::collection($areas));
     }
 
 }
