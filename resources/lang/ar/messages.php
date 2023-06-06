@@ -55,10 +55,9 @@
   'thank you' => 'شكرا لك ',
   'return_data_success' => 'Return data success',
   'user login' => 'User login',
-  'get_data_success' => 'تم استرجاع البيانات بنجاح',
+  'get data success' => 'تم استرجاع البيانات بنجاح',
   'activation code is correct' => 'الرمز صحيح',
   'activation code is not correct' => 'الرمز غير صحيح',
   'activation code sent' => 'تم ارسال الرمز الي رقم الهاتف',
-  'create password' => 'برجاء انشاء كلمة المرور'
-
+  'create password' => 'برجاء انشاء كلمة المرور',
 );
