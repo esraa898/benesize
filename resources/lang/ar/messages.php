@@ -7,6 +7,7 @@
   'user profile update' => 'تم تعديل البيانات ',
   'User registerd' => 'هذا الهاتف موجود من قبل',
   'User not active' => 'هذا المستخدم ليس مفعل',
+  'user not found' => 'المستخدم غير موجود',
   'password update' => 'تم تعديل كلمة المرور',
   'password added' => 'تم أضافة كلمة المرور',
   'old password is incorrect' => 'كلمة المرور القديمة غير صحيحة',

@@ -31,6 +31,8 @@ Route::get('/profile', [AuthController::class, 'userProfile']);
 
 Route::post('/uploadImage', [AuthController::class, 'uploadImage']);
 
+Route::post('/product_upload_Image',[ProductController::class,'addMedia']);
+
 Route::post('/support', [SupportController::class, 'store']);
 
     /////////////////////////////////////////////

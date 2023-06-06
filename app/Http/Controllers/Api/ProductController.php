@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api;
 
 
 
+use App\Models\Color;
 use App\Models\Product;
+use App\Models\ColorProduct;
 use Illuminate\Http\Request;
 use App\Models\FavouriteProduct;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductDetailResource;
-use App\Models\ColorProduct;
 
 class ProductController extends Controller
 {
@@ -93,6 +94,22 @@ class ProductController extends Controller
             return responseApi(500, "Fav products empty");
         }
         return responseApi(200, "All favourite products", $fav_products);
+    }
+
+    public function addMedia(Request $request)
+    {
+        $validator = validator($request->all(), [
+            'image' => 'required|Image|mimes:jpeg,jpg,png,gif',//|max:10000',
+        ]);
+
+        if ($validator->fails())return responseApi('false', $validator->errors()->first());
+
+        $uploadedFile = $request->file('image');
+        
+        $this->productModel->addMedia($uploadedFile)
+                ->withCustomProperties(['color_id' => $request->colorId,'product_id' => $request->productId])->toMediaCollection('images');
+
+        return responseApi(200, 'image uploaded successfuly');
     }
 
 

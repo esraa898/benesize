@@ -229,8 +229,9 @@ class AuthController extends Controller
     {
 
         $user = $this->userModel::where('id', $request->user_id)->first();
+        dd($user);
         if(! $user){
-            return responseApi(405, 'user not found');
+            return responseApi(405, translate('user not found'));
         }
         $data['user_id'] = $user->id;
 
