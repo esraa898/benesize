@@ -14,7 +14,7 @@ class AddTypeToSlidersTables extends Migration
     public function up()
     {
         Schema::table('sliders', function (Blueprint $table) {
-            $table->enum('type',['Product','Category','OutSite'])->after('id');
+            $table->enum('type',['Product','Category','SubCategory','OutSite','MultiProduct'])->after('id');
             $table->text('type_id',250)->after('type');
         });
     }

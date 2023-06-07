@@ -15,6 +15,8 @@
   'Account deleted' => 'تم حذف الحساب',
   'password is incorrect' => 'كلمة المرور غير صحيحة',
   'product not found' => 'المنتج غير موجود',
+  'products not found' => 'المنتجات غير موجودة',
+  'products found' => 'تم استرجع المنتجات بنجاح',
   'product quantity error' => 'نفذت الكمية',
   'option not found' => 'هذا الاختيار غير موجود',
   'option quantity error' => 'نفذت الكمية',
@@ -61,4 +63,6 @@
   'activation code is not correct' => 'الرمز غير صحيح',
   'activation code sent' => 'تم ارسال الرمز الي رقم الهاتف',
   'create password' => 'برجاء انشاء كلمة المرور',
+  'Sub Categories returns successfully' => 'تم استرجاع الفئات الفرعية بنجاح',
+  "Sub Categories not found" => 'لا يوجد فئات فرعية'
 );
