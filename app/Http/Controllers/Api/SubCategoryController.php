@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\SubCategoryResource;
+use function App\Helpers\translate;
 
 class SubCategoryController extends Controller
 {
@@ -24,11 +25,11 @@ class SubCategoryController extends Controller
         $sub_categories_response = SubCategoryResource::collection($sub_categories) ;
 
         if($sub_categories_response->isEmpty()){
-            return responseApi(500, "Sub Categories not found");
+            return responseApi(500, translate("Sub Categories not found"));
         }
 
         $data = $sub_categories_response;
-        return responseApi(200, "Sub Categories returns successfully", $data);
+        return responseApi(200, translate("Sub Categories returns successfully"), $data);
     }
 
     public function get_all_products(Request $request){
@@ -42,11 +43,11 @@ class SubCategoryController extends Controller
 
         $products = Product::with('subCategory')->where('sub_category_id', $request->sub_category_id)->get();
         if($products->isEmpty()){
-            return responseApi(500, 'Products not found');
+            return responseApi(500, translate('products not found'));
         }
 
         $products_response = ProductResource::collection($products);
-        return responseApi(200, 'Products  found', $products_response);
+        return responseApi(200, translate('products found'), $products_response);
     }
     
 }
