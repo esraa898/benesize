@@ -4,8 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeTypeInSlidersTables extends Migration
+class AddTitleColumnInSlidersTables extends Migration
 {
+   
     /**
      * Run the migrations.
      *
@@ -14,7 +15,7 @@ class ChangeTypeInSlidersTables extends Migration
     public function up()
     {
         Schema::table('sliders', function (Blueprint $table) {
-            //
+            $table->string('title')->nullable();
         });
     }
 
@@ -26,7 +27,7 @@ class ChangeTypeInSlidersTables extends Migration
     public function down()
     {
         Schema::table('sliders', function (Blueprint $table) {
-            //
+            $table->dropColumn('title');
         });
     }
 }
