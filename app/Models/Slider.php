@@ -8,7 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Slider extends Model
 {
     use HasFactory;
-    protected $fillable=[
-     'image','sort'
-    ];
+    protected $guarded=[];
 }
