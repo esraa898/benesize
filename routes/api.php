@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\ColorController;
+use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\GeneralController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SupportController;
@@ -30,6 +31,8 @@ Route::post('/removeAccount', [AuthController::class, 'removeAccount']);
 Route::get('/profile', [AuthController::class, 'userProfile']);
 
 Route::post('/uploadImage', [AuthController::class, 'uploadImage']);
+
+Route::post('/product_upload_Image',[ProductController::class,'addMedia']);
 
 Route::post('/support', [SupportController::class, 'store']);
 
@@ -68,3 +71,5 @@ Route::post('/add_customer',[CustomerController::class,'create_customer']);
 
 Route::post('/get_customers',[CustomerController::class,'get_all_customers_per_user']);
 Route::post('/search_customer',[CustomerController::class,'search_customer']);
+
+Route::post('/show_slider',[SliderController::class,'get_products']);

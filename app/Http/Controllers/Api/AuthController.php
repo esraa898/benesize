@@ -48,23 +48,23 @@ class AuthController extends Controller
                 'activation_code'=> 1111 // rand ( 1000 , 9999 ),
             ]);
             $data['status'] = 'IsFirstTime';
-            $msg ='activation code sent to your number';
+            $msg = translate('activation code sent');
             
         } else{
 
             if(!is_null($user->password)){
                 if($user->is_active == 1){
                     $data['status'] = 'IsLogin';
-                    $msg='User registerd ';
+                    $msg= translate('User registerd');
 
                 } else{
                     $data['status'] = 'IsInactive';
-                    $msg='User not active'; 
+                    $msg = translate('User not active'); 
                 }
 
             } else{
                 $data['status'] = 'IsNotHavePassword';
-                $msg='create password to your account';
+                $msg = translate('create password');
             }
         }
 
@@ -81,15 +81,15 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi(405, $validator->errors());
+            return responseApi(405, $validator->errors()->first());
 
         $user = $this->userModel::where('id', $request->user_id)->first();
-        $data = ['user_id'=>$user->id];
+        $data['user_id'] = $user->id;
 
         if($user->activation_code == $request->code){
-            return responseApi(200, 'activation code is correct', $data);
+            return responseApi(200, translate('activation code is correct'), $data);
         }
-        return responseApi(500, 'activation code is incorrect', $data);
+        return responseApi(500, translate('activation code is not correct'), $data);
     }
 
     public function save_password(CreatePasswordRequest $request){
@@ -103,13 +103,15 @@ class AuthController extends Controller
             ]);
         }
 
-        return responseApi(200, 'Password saved successfuly', $data);
+        return responseApi(200, translate('password added'), $data);
     }
 
     public function register(Request $request){
+        $user = $this->userModel::where('id', $request->user_id)->first();
         $validator = validator($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
             'name' => 'required|string|max:200',
+            'email' => 'required|email|unique:users,email,'.$user->id,
             'store_name' => 'required|string|max:200',
             'wallet_number' => 'required|string|max:20',
             'country_id' => 'required|integer|exists:countries,id',
@@ -119,24 +121,30 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails())
-            return responseApi(405, $validator->errors());
+            return responseApi(405, $validator->errors()->first());
 
-        $user = $this->userModel::where('id', $request->user_id)->first();
+       
 
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
             'country_id' => $request->country_id,
             'city_id' => $request->city_id,
+            'area_id' => $request->area_id,
             'gender' => $request->gender,
             'date_of_birth' => $request->date_of_birth,
+            'lat' => $request->lat,
+            'lang' => $request->lang,
+            'address' => $request->address,
+            'is_registerd' => 1
         ]);
 
-        // $this->sellerModel->create([
-        //     'user_id' => $user->id,
-        //     'store_name'=> $request->store_name,
-        //     'wallet_number' => $request->wallet_number
-        // ]);
+        $this->sellerModel->create([
+            'user_id' => $user->id,
+            'store_name'=> $request->store_name,
+            'wallet_number' => $request->wallet_number
+        ]);
+
         if( $request->hasfile('image')){
             $uploadedFile = $request->file('image');
             $extension = $uploadedFile->getClientOriginalExtension();
@@ -159,7 +167,7 @@ class AuthController extends Controller
 
         if ($validator->fails())
             return responseApi(405,
-                $validator->errors());
+                $validator->errors()->first());
 
         $user = User::where('phone',
             $request->phone)->first();
@@ -199,9 +207,9 @@ class AuthController extends Controller
         if (Hash::check($request->old_password,  $user->password)) {
             $user->update(['password' => $request->new_password]);
 
-            return responseApi(200, 'Password changed successfuly');
+            return responseApi(200, translate('password update'));
         }
-        return responseApi(500, 'User not found');
+        return responseApi(500, translate('old password is incorrect'));
     }
 
 
@@ -221,8 +229,9 @@ class AuthController extends Controller
     {
 
         $user = $this->userModel::where('id', $request->user_id)->first();
+        dd($user);
         if(! $user){
-            return responseApi(405, 'user not found');
+            return responseApi(405, translate('user not found'));
         }
         $data['user_id'] = $user->id;
 
@@ -241,7 +250,7 @@ class AuthController extends Controller
             'date_of_birth' => $request->date_of_birth,
         ]);
 
-        return responseApi(200, __('api.user profile update'), auth()->user());
+        return responseApi(200, translate('user profile update'), auth()->user());
     }
 
     public function removeAccount(Request $request)
@@ -253,14 +262,14 @@ class AuthController extends Controller
             auth()->user()->delete();
             auth()->logout();
 
-            return responseApi(200, __('api.Account deleted'));
+            return responseApi(200, translate('Account deleted'));
         }
-        return responseApi(500, __('api.password is incorrect'));
+        return responseApi(500, translate('password is incorrect'));
     }
 
     public function userProfile()
     {
-        return responseApi(200, translate('get_data_success'),  new UserResource(auth()->user()));
+        return responseApi(200, translate('get data success'),  new UserResource(auth()->user()));
     }
 
     public function uploadImage(Request $request)
@@ -271,7 +280,7 @@ class AuthController extends Controller
 
         $user = auth()->user();
 
-        if ($validator->fails())return responseApi('false', $validator->errors()->all());
+        if ($validator->fails())return responseApi('false', $validator->errors()->first());
 
         $image = $user->getFirstMedia('images');
 

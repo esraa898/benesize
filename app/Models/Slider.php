@@ -8,7 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Slider extends Model
 {
     use HasFactory;
-    protected $fillable=[
-     'image','sort'
+
+    protected $guarded = [];
+
+    protected $fillable = [
+        'image',
+        'title',
+        'type',
+        'type_id',
+        'sort'
     ];
+
+    public function product()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

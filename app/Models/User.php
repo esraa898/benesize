@@ -28,7 +28,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         'activation_code',
         'address',
         'lat',
-        'long',
+        'lang',
         'is_active',
         'is_registerd',
         'city_id',
