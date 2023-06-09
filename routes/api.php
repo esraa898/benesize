@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\SubCategoryController;
 
 
+Route::post('/product_img',[ProductController::class,'addMediaNew']);
 
 Route::post('/checkPhoneNumber',[AuthController::class, 'checkPhone']);
 Route::post('/verificationCodeNumber',[AuthController::class, 'checkCode']);
@@ -32,13 +33,12 @@ Route::get('/profile', [AuthController::class, 'userProfile']);
 
 Route::post('/uploadImage', [AuthController::class, 'uploadImage']);
 
-Route::post('/product_upload_Image',[ProductController::class,'addMedia']);
 
 Route::post('/support', [SupportController::class, 'store']);
 
-    /////////////////////////////////////////////
-    ///                     info              ///
-    /// /////////////////////////////////////////
+/////////////////////////////////////////////
+///                     info              ///
+/// /////////////////////////////////////////
 Route::get('/countries', [GeneralController::class, 'countries']);
 Route::get('/cities', [GeneralController::class, 'cities']);
 Route::get('/areas', [GeneralController::class, 'areas']);

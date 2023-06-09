@@ -49,7 +49,7 @@ class AuthController extends Controller
             ]);
             $data['status'] = 'IsFirstTime';
             $msg = translate('activation code sent');
-            
+
         } else{
 
             if(!is_null($user->password)){
@@ -59,7 +59,7 @@ class AuthController extends Controller
 
                 } else{
                     $data['status'] = 'IsInactive';
-                    $msg = translate('User not active'); 
+                    $msg = translate('User not active');
                 }
 
             } else{
@@ -111,10 +111,10 @@ class AuthController extends Controller
         $validator = validator($request->all(), [
             'user_id' => 'required|integer|exists:users,id',
             'name' => 'required|string|max:200',
-            'email' => 'required|email|unique:users,email,'.$user->id,
+            // 'email' => 'required|email|unique:users,email,'.$user->id,
             'store_name' => 'required|string|max:200',
             'wallet_number' => 'required|string|max:20',
-            'country_id' => 'required|integer|exists:countries,id',
+            // 'country_id' => 'required|integer|exists:countries,id',
             'city_id' => 'required|integer|exists:cities,id',
             'gender' => 'required|string|in:male,female',
             'date_of_birth' => 'required|date',
@@ -123,7 +123,7 @@ class AuthController extends Controller
         if ($validator->fails())
             return responseApi(405, $validator->errors()->first());
 
-       
+
 
         $user->update([
             'name' => $request->name,
@@ -229,7 +229,7 @@ class AuthController extends Controller
     {
 
         $user = $this->userModel::where('id', $request->user_id)->first();
-        dd($user);
+
         if(! $user){
             return responseApi(200, translate('user not found'), []);
         }

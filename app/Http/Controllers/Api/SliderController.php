@@ -19,9 +19,9 @@ class SliderController extends Controller
 
         if ($validator->fails())
             return responseApi(403, $validator->errors()->first());
-        
+
         $slider = Slider::where('id', $request->slider_id)->first();
-        
+
         if($slider->type == 'MultiProduct'){
             $products_list_ids = $slider->type_id;
             $products_id = json_decode($products_list_ids, true);
@@ -29,13 +29,13 @@ class SliderController extends Controller
             foreach ($products_id as $product_id){
                 $product = ColorProduct::where('product_id', $product_id)->first();
                 $data [] = new ProductColorsResource($product);
-                
+
             }
 
             return responseApi(200, 'products return successfuly', $data);
 
         }
-        return responseApi(200, 'slider type is not multi product');
-        
+        return responseApi(200, 'slider type is not multi product',[]);
+
     }
 }

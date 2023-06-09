@@ -17,7 +17,7 @@ class SubCategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'image' => $this->getFirstMedia('sub_category_images') != null ? $this->getFirstMedia('images')->getUrl() : null,
+            'image' => $this->getFirstMedia('images') != null ? $this->getFirstMedia('images')->getUrl() : null,
         ];
     }
 }
