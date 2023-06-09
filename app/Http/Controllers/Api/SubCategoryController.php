@@ -25,7 +25,7 @@ class SubCategoryController extends Controller
         $sub_categories_response = SubCategoryResource::collection($sub_categories) ;
 
         if($sub_categories_response->isEmpty()){
-            return responseApi(500, translate("Sub Categories not found"));
+            return responseApi(200, translate("Sub Categories not found"), []);
         }
 
         $data = $sub_categories_response;
@@ -43,7 +43,7 @@ class SubCategoryController extends Controller
 
         $products = Product::with('subCategory')->where('sub_category_id', $request->sub_category_id)->get();
         if($products->isEmpty()){
-            return responseApi(500, translate('products not found'));
+            return responseApi(200, translate('products not found'), []);
         }
 
         $products_response = ProductResource::collection($products);

@@ -63,7 +63,7 @@ class CustomerController extends Controller
 
         $customers = Customer::with('user')->where('user_id', $request->user_id)->get();
         if($customers->isEmpty()){
-            return responseApi(500, 'customers not found');
+            return responseApi(200, 'customers not found', []);
         }
 
         $customers_response = CustomerResource::collection($customers);
@@ -86,7 +86,7 @@ class CustomerController extends Controller
         }
 
         if($Customer->isEmpty()){
-            return responseApi(500,'customers not found', $Customer);
+            return responseApi(200,'customers not found', []);
         }
         return responseApi(200,'customers found', $Customer);
       

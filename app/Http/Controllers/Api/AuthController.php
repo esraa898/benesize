@@ -173,8 +173,8 @@ class AuthController extends Controller
             $request->phone)->first();
 
         if(!$user){
-            return responseApi(500,
-                'Not found user');
+            return responseApi(200,
+                'Not found user', []);
         }
 
         if (! $token = JWTAuth::attempt($validator->validated())){
@@ -183,8 +183,8 @@ class AuthController extends Controller
         }
 
         if (!$token){
-            return responseApi(500,
-                'Unauthorized');
+            return responseApi(403,
+                'Unauthorized', []);
         }
         return responseApi(200,
             translate('user login'),$this->createNewToken($token)
@@ -231,7 +231,7 @@ class AuthController extends Controller
         $user = $this->userModel::where('id', $request->user_id)->first();
         dd($user);
         if(! $user){
-            return responseApi(405, translate('user not found'));
+            return responseApi(200, translate('user not found'), []);
         }
         $data['user_id'] = $user->id;
 
