@@ -227,27 +227,19 @@ class AuthController extends Controller
 
     public function editProfile(EditProfileRequest $request)
     {
-
-        $user = $this->userModel::where('id', $request->user_id)->first();
-
+        $user = auth()->user();
         if(! $user){
             return responseApi(200, translate('user not found'), []);
         }
-        $data['user_id'] = $user->id;
 
         $user->update([
             'name' => $request->name,
-            'email' => $request->email,
             'phone' => $request->phone,
-            'country_id' => $request->country_id,
             'city_id' => $request->city_id,
-            'area_id' => $request->area_id,
-            'address' => $request->address,
-            'lat' => $request->lat,
-            'lang' => $request->lang,
-            'image' => $request->image,
             'gender' => $request->gender,
             'date_of_birth' => $request->date_of_birth,
+            'wallet_number' => $request->wallet_number,
+            'store_name' => $request->store_name
         ]);
 
         return responseApi(200, translate('user profile update'), auth()->user());
