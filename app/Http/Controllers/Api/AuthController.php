@@ -228,8 +228,23 @@ class AuthController extends Controller
     public function editProfile(EditProfileRequest $request)
     {
         $user = auth()->user();
+
         if(! $user){
             return responseApi(200, translate('user not found'), []);
+        }
+        
+        $image = $user->getFirstMedia('images');
+
+        if($image){
+            $image->delete();
+        }
+
+        if( $request->hasfile('image')){
+            $uploadedFile = $request->file('image');
+            $extension = $uploadedFile->getClientOriginalExtension();
+            $user->addMedia($uploadedFile)
+                ->usingFileName(time().'.'.$extension)
+                ->toMediaCollection('images');
         }
 
         $user->update([
@@ -242,7 +257,7 @@ class AuthController extends Controller
             'store_name' => $request->store_name
         ]);
 
-        return responseApi(200, translate('user profile update'), auth()->user());
+        return responseApi(200, translate('user profile update'), new UserResource(auth()->user()));
     }
 
     public function removeAccount(Request $request)
