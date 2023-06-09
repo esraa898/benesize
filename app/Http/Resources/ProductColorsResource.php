@@ -16,11 +16,15 @@ class ProductColorsResource extends JsonResource
      */
     public function toArray($request)
     {
+        $image = null;
+        $imageMedia = $this->product->getFirstMedia('images', ['color_id' => $this->color_id]);
+        if ($imageMedia) {
+            $image = $imageMedia->getUrl();
+        }
         return  [
             'id'                    => $this->product->id,
             "color_id"              => $this->color_id,
             "hexa"                  => $this->color->hexa,
-            'color_count'           => $this->product->count(),
             'name'                  => $this->product->name,
             'description'           => $this->product->description,
             'price'                 => $this->product->price,
@@ -28,7 +32,7 @@ class ProductColorsResource extends JsonResource
             'repeat_times'          => $this->product->repeat_times,
             'increase_ratio'        => $this->product->increase_ratio,
             'max_price'             => $this->product->min_price + ( $this->product->increase_ratio * ($this->product->repeat_times + 1) ),
-            'image'                 => $this->product->getFirstMedia('images', ['color_id' => $this->color_id]) != null ? $this->product->getFirstMedia('images', ['color_id' => $this->color_id])->getUrl() : null,
+            'image'                 => $image,
             "is_new"                => $this->product->is_new,
             "is_on_sale"            => $this->product->is_on_sale,
             "is_new_arrival"        => $this->product->is_new_arrival,
@@ -46,10 +50,14 @@ class ProductColorsResource extends JsonResource
 
         $first_color = Color::first();
         $first_color_id = $first_color->id;
-        $first_image = $this->product->getFirstMedia('images', ['color_id' => $first_color_id])->getUrl();
+        $image = null;
+        $imageMedia = $this->product->getFirstMedia('images', ['color_id' =>$first_color_id]);
+        if ($imageMedia) {
+            $image = $imageMedia->getUrl();
+        }
         $defaults = [
             'color' => $first_color_id,
-            'image' => $first_image
+            'image' => $image
         ];
         return $defaults;
     }

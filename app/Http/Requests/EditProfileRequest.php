@@ -26,16 +26,12 @@ class EditProfileRequest extends FormRequest
     {
         return [
             'name' => 'required|string|between:2,100',
-            'email' => 'required|string|email|max:100|unique:users,email,' . auth()->id(),
+            'store_name' => 'required|string|max:200',
+            'city_id' => 'required|integer|exists:cities,id',
             'phone' => 'required|string|max:20',
-            'gender' => 'required|string|in:male,female',
-            'address' => 'required|string|max:255',
-            'lat' => 'string|required',
-            'lang' => 'string|required',
-            'image' => 'required',
-            'country_id' => 'required',
-            'city_id' => 'required',
-            'area_id' => 'required'
+            'wallet_number' => 'required|string|max:20',
+            'date_of_birth' => 'required|date',
+            'gender' => 'required|string|in:male,female'
         ];
     }
 
