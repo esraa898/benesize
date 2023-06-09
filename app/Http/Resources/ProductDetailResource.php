@@ -14,6 +14,12 @@ class ProductDetailResource extends JsonResource
      */
     public function toArray($request)
     {
+        $images = null;
+        $imageMedias = $this->product->getMedia('images', ['color_id' => $this->color_id]);
+        foreach($imageMedias as $imageMedia){
+            $images [] = $imageMedia->getUrl();
+        }
+
          return [
 
             'id'             => $this->id,
@@ -24,7 +30,7 @@ class ProductDetailResource extends JsonResource
             'repeat_times'   => $this->product->repeat_times,
             'increase_ratio' => $this->product->increase_ratio,
             'max_price'      => $this->product->min_price + ($this->product->increase_ratio * ($this->product->repeat_times+1)),
-            'images'         => $this->getMedia('images') != null ? $this->getMedia('images') : null,
+            'images'         => $images,
             'product_color_size'=> ProductColorSizeResource::collection($this->productColorSizes),
 
         ];
