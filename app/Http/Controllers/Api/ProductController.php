@@ -48,7 +48,7 @@ class ProductController extends Controller
 
         $user = auth()->user();
         if(!$user){
-            return responseApi(403, "user not found");
+            return responseApi(200, "user not found", []);
         }
 
         $fav_product = FavouriteProduct::create([
@@ -73,7 +73,7 @@ class ProductController extends Controller
         $whereArray = array();
         $user = auth()->user();
         if(!$user){
-            return responseApi(403, "user not found");
+            return responseApi(200, "user not found", []);
         }
         $whereArray = ['user_id'=> $user->id, 'product_id' => $request->product_id, 'color_id' => $request->color_id];
         $fav_product = FavouriteProduct::where($whereArray)->delete();
@@ -86,7 +86,7 @@ class ProductController extends Controller
         $whereArray = array();
         $user = auth()->user();
         if(!$user){
-            return responseApi(403, "user not found");
+            return responseApi(200, "user not found", []);
         }
         $whereArray = ['user_id'=> $user->id];
         $fav_products = FavouriteProduct::where($whereArray)->get();

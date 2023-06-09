@@ -32,7 +32,6 @@ class SubCategoryController extends Controller
 
         if($sub_categories_response->isEmpty()){
             return responseApi(200, translate("Sub Categories not found"), []);
-
         }
 
         $data = $sub_categories_response;
@@ -49,16 +48,20 @@ class SubCategoryController extends Controller
 
         if ($validator->fails())
             return responseApi(403, $validator->errors()->first());
+      
         $products= ColorProduct::with('color','product')->wherehas('product',function($q) use($sub_category_id){
             $q->where('sub_category_id',$sub_category_id );
         });
+      
+        if($products->isEmpty()){
+            return responseApi(200, translate('products not found'), []);}
+      
         if($count_paginate == 'ALL'){
             $products=  $products->get();
         }else{
-            $products=  $products->simplePaginate($count_paginate);
+            $products = $products->simplePaginate($count_paginate);
         }
-        $products=  ProductColorsResource::collection($products);
-
+        $products = ProductColorsResource::collection($products);
 
         return responseApi(200, translate('products found'), $products);
     }

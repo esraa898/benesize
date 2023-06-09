@@ -51,7 +51,7 @@ class SizeController extends Controller
         $size = Size::find($id);
 
         if (!$size) {
-            return responseApi(500, "Size Not Found", $size);
+            return responseApi(200, "Size Not Found", []);
         }
         return responseApi(200, "Size Found", $size);
     }
@@ -69,7 +69,7 @@ class SizeController extends Controller
     {
         $size = Size::find($id);
         if (!$size) {
-            return responseApi(500, "Size Not Found", $size);
+            return responseApi(200, "Size Not Found", []);
         }
 
         $size->delete();

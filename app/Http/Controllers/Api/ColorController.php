@@ -41,7 +41,7 @@ class ColorController extends Controller
         $color = Color::find($id);
 
         if(!$color) {
-            return responseApi(500, "Color Not Found", $color);
+            return responseApi(200, "Color Not Found", []);
         }
 
         return responseApi(200, "Color Found", $color);
@@ -52,7 +52,7 @@ class ColorController extends Controller
         $color = Color::find($id);
 
         if (!$color) {
-            return responseApi(500, "Color Not Found", $color);
+            return responseApi(200, "Color Not Found", []);
         }
         return responseApi(200, "Color Found", $color);
     }
@@ -71,7 +71,7 @@ class ColorController extends Controller
     {
         $color = Color::find($id);
         if (!$color) {
-            return responseApi(500, "Color Not Found", $color);
+            return responseApi(200, "Color Not Found", []);
         }
 
         $color->delete();

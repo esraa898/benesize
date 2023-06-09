@@ -39,7 +39,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         if(!$category) {
-            return responseApi(500, "Category Not Found", $category);
+            return responseApi(200, "Category Not Found", []);
         }
 
         return responseApi(200, "Category Found", $category);
@@ -50,7 +50,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         if (!$category) {
-            return responseApi(500, "Category Not Found", $category);
+            return responseApi(200, "Category Not Found", []);
         }
         return responseApi(200, "Category Found", $category);
     }
@@ -69,11 +69,11 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         if (!$category) {
-            return responseApi(500, "Category Not Found", $category);
+            return responseApi(200, "Category Not Found", []);
         }
 
         $category->delete();
 
-        return responseApi(200, "Category Deleted");
+        return responseApi(200, "Category Deleted", []);
     }
 }
