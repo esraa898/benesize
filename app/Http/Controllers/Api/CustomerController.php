@@ -9,6 +9,7 @@ use App\Http\Resources\CustomerResource;
 
 class CustomerController extends Controller
 {
+    public $customerModel;
     public function __construct(Customer $customer){
         $this->customerModel = $customer;
         $this->middleware('auth.guard:api');

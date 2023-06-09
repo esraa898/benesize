@@ -58,12 +58,12 @@ class SubCategoryController extends Controller
             return responseApi(200, translate('products not found'), []);
 
         if($count_paginate == 'ALL'){
-            $products=  $products->get();
-        }else{
-            $products=  $products->simplePaginate($count_paginate);
-
+            $products = $products->get();
+        } else{
+            $products = $products->simplePaginate($count_paginate);
         }
-        $products=  ProductColorsResource::collection($products);
+
+        $products = ProductColorsResource::collection($products);
 
         return responseApi(200, translate('products found'), $products);
     }
